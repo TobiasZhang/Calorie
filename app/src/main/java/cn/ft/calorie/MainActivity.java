@@ -21,8 +21,7 @@ public class MainActivity extends AppCompatActivity {
     public void xx(View v){
         UserInfo u=  new UserInfo();
         u.setTel("123123");
-        u.setPassword("大2b");
-        u.setId("587baf9ea18eb302146995bb");
+        u.setPassword("大大大大大大大大大大大大大大大大大大大大大大大");
         apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().mergeUserInfo(u))
                 .subscribe(
                         userInfo -> System.out.println(userInfo.getPassword()),
