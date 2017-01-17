@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.LoginActivity">
+    tools:context=".ui.RegisterActivity">
     <include android:id="@+id/toolbarBlock" layout="@layout/include_toolbar"/>
     <EditText
         android:id="@+id/telTxt"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:singleLine="true"
-        android:inputType="number"
         android:hint="请输入手机号"
+        android:inputType="number"
         android:layout_below="@id/toolbarBlock"/>
     <RelativeLayout
         android:id="@+id/passwordBlock"
@@ -40,34 +40,32 @@
             android:layout_toLeftOf="@id/passwordEye"
             />
     </RelativeLayout>
-    <TextView
-        android:id="@+id/forgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="忘记密码"
-        android:layout_below="@id/passwordBlock"/>
-    <TextView
-        android:id="@+id/toRegisterBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="没有账号，去注册"
-        android:layout_below="@id/passwordBlock"
-        android:layout_alignParentRight="true"/>
-    <LinearLayout
-        android:id="@+id/thirdPartyBlock"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true">
-        <TextView
+        android:layout_height="60dp"
+        android:layout_below="@id/passwordBlock">
+        <Button
+            android:id="@+id/getValidationCodeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点我获取"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            />
+        <EditText
+            android:id="@+id/validationCodeTxt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="我是第三方注册"
-            android:background="#6699ff"/>
-    </LinearLayout>
+            android:singleLine="true"
+            android:inputType="number"
+            android:hint="请输入手机验证码"
+            android:layout_toLeftOf="@id/getValidationCodeBtn"
+            />
+    </RelativeLayout>
     <Button
-        android:id="@+id/loginBtn"
+        android:id="@+id/registerBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="登录"
-        android:layout_above="@id/thirdPartyBlock"/>
+        android:text="完成"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

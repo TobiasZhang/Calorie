@@ -3,7 +3,9 @@ package cn.ft.calorie.api;
 
 import cn.ft.calorie.pojo.UserInfo;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -17,6 +19,11 @@ public interface ApiService {
      */
     @POST(API_PATH + "user/login")
     Observable<ApiResult<UserInfo>> login(@Body UserInfo userInfo);
+    /**
+     * 验证手机号是否存在
+     */
+    @POST(API_PATH + "user/validateTel")
+    Observable<ApiResult<Void>> validateTel(@Query("tel") String tel);
     /**
      * 用户注册
      */

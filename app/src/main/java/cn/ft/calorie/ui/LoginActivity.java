@@ -1,17 +1,17 @@
-package cn.ft.calorie;
+package cn.ft.calorie.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.ft.calorie.R;
+import cn.ft.calorie.ToolbarActivity;
+import cn.ft.calorie.listener.OnPasswordEyeListenerImpl;
 import cn.ft.calorie.pojo.UserInfo;
 import cn.ft.calorie.util.Utils;
 
@@ -24,70 +24,49 @@ public class LoginActivity extends ToolbarActivity {
     CheckBox passwordEye;
     @BindView(R.id.forgotPassword)
     TextView forgotPassword;
-    @BindView(R.id.toRegister)
-    TextView toRegister;
+    @BindView(R.id.toRegisterBtn)
+    TextView toRegisterBtn;
     @BindView(R.id.loginBtn)
     Button loginBtn;
 
     @Override
-    void setLayout() {
+    protected void setLayout() {
         setContentView(R.layout.activity_login);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bindViews();
-        bindListeners();
     }
-
-    private void bindViews() {
+     protected void bindViews() {
         ButterKnife.bind(this);
-        getSupportActionBar().setTitle("登录");
+        toolbar.setTitle("登录");
     }
-
-    private void bindListeners() {
+     protected void bindListeners() {
         //密码是否可见
-        passwordEye.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if (isChecked)
-                passwordTxt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            else
-                passwordTxt.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            passwordTxt.setSelection(passwordTxt.length());
-        });
+        passwordEye.setOnCheckedChangeListener(new OnPasswordEyeListenerImpl(passwordTxt));
         //登录
         loginBtn.setOnClickListener(v -> {
             String tel = telTxt.getText().toString().trim();
-            if(!isTelValid(tel)) return;
+            if(!Utils.isTelValid(tel,telTxt)) return;
             String password = passwordTxt.getText().toString().trim();
-            if(!isPasswordValid(password)) return;
+            if(!Utils.isPasswordValid(password,passwordTxt)) return;
             UserInfo u = new UserInfo();
             u.setTel(tel);
             u.setPassword(password);
             apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().login(u)).subscribe(
                     loginUser -> {
+                        Utils.loginUser = loginUser;
                         System.out.println(loginUser);//// TODO: 2017/1/16  
                     },
                     err -> Utils.toast(this,err.getMessage())
             );
         });
+        //去注册页
+        toRegisterBtn.setOnClickListener(v -> startActivity(new Intent(this,RegisterActivity.class)));
+
     }
 
-    private boolean isTelValid(String tel){
-        return true;
-    }
-    private boolean isPasswordValid(String password){
-        boolean isValid = false;
-        if(TextUtils.isEmpty(password)){
-            passwordTxt.setError("密码长度位于6~12位之间",null);
-        }else if(false){
-            // TODO: 2017/1/16
-        }else{
-            isValid = true;
-        }
-        if(!isValid)
-            passwordTxt.requestFocus();
-        return isValid;
-    }
+
 
 }
