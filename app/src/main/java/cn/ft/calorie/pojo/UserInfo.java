@@ -19,6 +19,8 @@ public class UserInfo extends RealmObject implements Serializable {
     private Date birthday;
     private Integer height;
     private Integer weight;
+    private String avatar;
+    private String nickname;
     private Meta meta;
 
     public Date getBirthday() {
@@ -83,5 +85,21 @@ public class UserInfo extends RealmObject implements Serializable {
 
     public void setWeight(Integer weight) {
         this.weight = weight;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

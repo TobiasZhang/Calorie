@@ -7,18 +7,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import cn.ft.calorie.api.ApiUtils;
+
 /**
  * Created by TT on 2017/1/16.
  */
 public abstract class ToolbarActivity extends AppCompatActivity {
+    protected ApiUtils apiUtils = ApiUtils.getInstance();
     protected Toolbar toolbar;
-    protected TextView titleTxt;
+    //protected TextView titleTxt;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayout();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        titleTxt = (TextView) findViewById(R.id.title);
+        //titleTxt = (TextView) findViewById(R.id.title);
         setSupportActionBar(toolbar);
         //<-箭头
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

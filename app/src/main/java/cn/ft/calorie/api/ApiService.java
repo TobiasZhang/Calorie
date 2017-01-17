@@ -12,8 +12,19 @@ import rx.Observable;
 public interface ApiService {
     String API_PATH = "api/";
     String ADMIN_PATH = "admin/";
-    @POST(API_PATH+"user/merge")
+    /**
+     * 用户登录
+     */
+    @POST(API_PATH + "user/login")
+    Observable<ApiResult<UserInfo>> login(@Body UserInfo userInfo);
+    /**
+     * 用户注册
+     */
+    @POST(API_PATH + "user/register")
+    Observable<ApiResult<UserInfo>> register(@Body UserInfo userInfo);
+    /**
+     * 修改用户
+     */
+    @POST(API_PATH + "user/merge")
     Observable<ApiResult<UserInfo>> mergeUserInfo(@Body UserInfo userInfo);
- /*   @POST("user/getall/")
-    Observable<ApiResult<List<UserInfo>>> getTest();*/
 }
