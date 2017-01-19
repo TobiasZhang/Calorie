@@ -10,10 +10,12 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.R;
-import cn.ft.calorie.ToolbarActivity;
 import cn.ft.calorie.listener.OnPasswordEyeListenerImpl;
 import cn.ft.calorie.pojo.UserInfo;
+import cn.ft.calorie.util.SubscriptionUtils;
 import cn.ft.calorie.util.Utils;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class RegisterActivity extends ToolbarActivity {
     @BindView(R.id.telTxt)
@@ -46,13 +48,15 @@ public class RegisterActivity extends ToolbarActivity {
             String tel = telTxt.getText().toString().trim();
             if(!Utils.isTelValid(tel,telTxt)) return;
             //验证手机号是否重复
-            apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().validateTel(tel))
-                    .subscribe(aVoid -> {
-                        // TODO: 2017/1/17//发送验证码
-                        Utils.toast(this,"发送验证码");
-                    },e->{
-                        Utils.toast(this,e.getMessage());
-                    });
+            SubscriptionUtils.register(this,
+                apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().validateTel(tel))
+                        .subscribe(aVoid -> {
+                            // TODO: 2017/1/17//发送验证码
+                            Utils.toast(this,"发送验证码");
+                        },e->{
+                            Utils.toast(this,e.getMessage());
+                        })
+            );
         });
         //注册
         registerBtn.setOnClickListener(v -> {
@@ -63,21 +67,27 @@ public class RegisterActivity extends ToolbarActivity {
             String validationCode = validationCodeTxt.getText().toString().trim();
             if(!isValidationCodeValid(validationCode))return;
             //验证手机号是否重复
-            apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().validateTel(tel))
-                    .flatMap(aVoid -> {
-                        UserInfo u = new UserInfo();
-                        u.setTel(tel);
-                        u.setPassword(password);
-                        return apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().register(u));
-                    })
-                    .subscribe(user -> {
-                        Utils.loginUser = user;
-                        Utils.toast(this,"注册成功");
-                        startActivity(new Intent(this,CompleteProfileActivity.class));
-                        finish();
-                    },e->{
-                        Utils.toast(this,e.getMessage());
-                    });
+            SubscriptionUtils.register(this,
+                apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().validateTel(tel))
+                        .observeOn(Schedulers.io())
+                        .flatMap(aVoid -> {
+                            System.out.println(Thread.currentThread().getName()+"--------");
+                            UserInfo u = new UserInfo();
+                            u.setTel(tel);
+                            u.setPassword(password);
+                            return apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().register(u));
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(user -> {
+                            Utils.loginUser = user;
+                            Utils.toast(this,"注册成功");
+                            startActivity(new Intent(this,CompleteProfileActivity.class));
+                            finish();
+                        },e->{
+                            Utils.toast(this,e.getMessage());
+                        })
+            );
+
         });
     }
 

@@ -11,17 +11,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.R;
-import cn.ft.calorie.ToolbarActivity;
+import cn.ft.calorie.util.RxBus;
+import cn.ft.calorie.ui.ToolbarActivity;
+import cn.ft.calorie.event.FragmentPopupEvent;
 import cn.ft.calorie.pojo.UserInfo;
-import cn.ft.calorie.ui.fragment.CompleteProfileFragment2;
 import cn.ft.calorie.util.FragmentUtils;
+import cn.ft.calorie.util.SubscriptionUtils;
 import cn.ft.calorie.util.Utils;
 
 public class CompleteProfileFragment1 extends Fragment {
@@ -34,6 +35,7 @@ public class CompleteProfileFragment1 extends Fragment {
 
     View rootView;
     int choiceSex;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,18 +80,8 @@ public class CompleteProfileFragment1 extends Fragment {
             tempUser.setSex(choiceSex==1?"女":"男");
             Bundle bundle = new Bundle();
             bundle.putSerializable("tempUser",tempUser);
-            FragmentUtils.addFragment(getActivity(),R.id.fragmentContainer,new CompleteProfileFragment2(),bundle);
+            FragmentUtils.addFragment(getActivity(),R.id.fragmentContainer,new CompleteProfileFragment2(),bundle,true,"completeProfile2");
         });
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        ((ToolbarActivity) getActivity()).toolbar.setTitle("身体信息(1/3)");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 }

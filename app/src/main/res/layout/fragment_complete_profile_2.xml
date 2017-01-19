@@ -4,50 +4,69 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context=".ui.fragment.CompleteProfileFragment2"
-             android:padding="10dp"
              android:background="@android:color/white">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical">
-        <TextView
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="恭喜您注册成功！\n下面请您填写您的身体信息，以便帮您准确计算出准确的运动量"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="请选择您的性别"
-            android:layout_marginTop="20dp"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
             />
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:orientation="vertical">
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/femaleImg"
-                android:layout_width="0dp"
-                android:layout_height="250dp"
-                android:layout_weight="1"
-                fresco:roundedCornerRadius="5dp"
-                fresco:roundingBorderWidth="2dp"
-                fresco:roundingBorderColor="@android:color/black"
-                android:layout_margin="10dp"
-                fresco:fadeDuration="500"
+                android:id="@+id/avatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                fresco:roundAsCircle="true"
+                fresco:placeholderImage="@drawable/avatar_default"
+                android:layout_gravity="center_horizontal"
                 />
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/maleImg"
-                android:layout_width="0dp"
-                android:layout_height="250dp"
-                android:layout_weight="1"
-                fresco:roundedCornerRadius="5dp"
-                fresco:roundingBorderWidth="2dp"
-                fresco:roundingBorderColor="@android:color/black"
-                android:layout_margin="10dp"
-                fresco:fadeDuration="500"
-                />
+            <EditText
+                android:id="@+id/nicknameTxt"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="请输入昵称"
+                android:gravity="center"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="请填写您的出生日期"
+            android:layout_marginTop="20dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            />
+        <DatePicker
+            android:id="@+id/dataPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"
+            android:theme="@android:style/Theme.Holo.Light"
+            ></DatePicker>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "cn.ft.calorie"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 22//24
         versionCode 1
         versionName "1.0"
@@ -34,32 +34,34 @@ dependencies {
      * butterknife
      */
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.jakewharton:butterknife:8.4.0'
     /**
      * rx
      */
+    compile 'io.reactivex:rxjava:1.2.3'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     /**
      * retrofit2
      */
-    /**
-     * gson
-     */
-    /**
-     * fresco
-     */
-    // 支持 GIF 动图，需要添加
-    /**
-     * recyclerview,tablayout etc
-     */
-    compile 'com.jakewharton:butterknife:8.4.0'
-    compile 'io.reactivex:rxjava:1.2.3'
-    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    /**
+     * gson
+     */
     compile 'com.google.code.gson:gson:2.8.0'
+    /**
+     * fresco
+     */
     compile 'com.facebook.fresco:fresco:1.0.0'
+    // 支持 GIF 动图，需要添加
     compile 'com.facebook.fresco:animated-gif:1.0.0'
+    /**
+     * recyclerview,tablayout etc
+     */
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
+
+    compile 'com.shawnlin:number-picker:2.3.0'
 }

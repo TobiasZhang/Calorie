@@ -1,4 +1,4 @@
-package cn.ft.calorie;
+package cn.ft.calorie.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,13 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import cn.ft.calorie.R;
 import cn.ft.calorie.api.ApiUtils;
+import cn.ft.calorie.event.FragmentPopupEvent;
+import cn.ft.calorie.util.RxBus;
+import cn.ft.calorie.util.SubscriptionUtils;
 
 /**
  * Created by TT on 2017/1/16.
  */
 public abstract class ToolbarActivity extends AppCompatActivity {
-    protected ApiUtils apiUtils = ApiUtils.getInstance();
+    public ApiUtils apiUtils = ApiUtils.getInstance();
     public Toolbar toolbar;
     //protected TextView titleTxt;
     @Override
@@ -29,6 +33,13 @@ public abstract class ToolbarActivity extends AppCompatActivity {
 
         bindViews();
         bindListeners();
+
+        /*toolbar.setNavigationOnClickListener(v->{
+            if(getSupportFragmentManager().popBackStackImmediate())
+                RxBus.getDefault().post(new FragmentPopupEvent("update"));
+            else
+                finish();
+        });*/
     }
 
     @Override
@@ -45,5 +56,9 @@ public abstract class ToolbarActivity extends AppCompatActivity {
     protected abstract void bindViews();
     protected abstract void bindListeners();
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SubscriptionUtils.unregister(this);
+    }
 }

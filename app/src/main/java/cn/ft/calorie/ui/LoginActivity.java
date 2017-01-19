@@ -10,9 +10,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.R;
-import cn.ft.calorie.ToolbarActivity;
 import cn.ft.calorie.listener.OnPasswordEyeListenerImpl;
 import cn.ft.calorie.pojo.UserInfo;
+import cn.ft.calorie.util.SubscriptionUtils;
 import cn.ft.calorie.util.Utils;
 
 public class LoginActivity extends ToolbarActivity {
@@ -54,13 +54,16 @@ public class LoginActivity extends ToolbarActivity {
             UserInfo u = new UserInfo();
             u.setTel(tel);
             u.setPassword(password);
-            apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().login(u)).subscribe(
-                    loginUser -> {
-                        Utils.loginUser = loginUser;
-                        System.out.println(loginUser);//// TODO: 2017/1/16  
-                    },
-                    err -> Utils.toast(this,err.getMessage())
+            SubscriptionUtils.register(this,
+                apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().login(u)).subscribe(
+                        loginUser -> {
+                            Utils.loginUser = loginUser;
+                            System.out.println(loginUser);//// TODO: 2017/1/16
+                        },
+                        err -> Utils.toast(this,err.getMessage())
+                )
             );
+
         });
         //去注册页
         toRegisterBtn.setOnClickListener(v -> startActivity(new Intent(this,RegisterActivity.class)));

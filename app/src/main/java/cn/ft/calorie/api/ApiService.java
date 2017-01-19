@@ -2,9 +2,12 @@ package cn.ft.calorie.api;
 
 
 import cn.ft.calorie.pojo.UserInfo;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -34,4 +37,10 @@ public interface ApiService {
      */
     @POST(API_PATH + "user/merge")
     Observable<ApiResult<UserInfo>> mergeUserInfo(@Body UserInfo userInfo);
+    /**
+     * 上传头像
+     */
+    @Multipart
+    @POST(API_PATH + "user/uploadAvatar")
+    Observable<ApiResult<String>> uploadAvatar(@Part("avatarFile")RequestBody avatarBody, @Part("uid")String uid);
 }

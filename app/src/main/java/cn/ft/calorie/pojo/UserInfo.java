@@ -102,4 +102,21 @@ public class UserInfo extends RealmObject implements Serializable {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "avatar='" + avatar + '\'' +
+                ", id='" + id + '\'' +
+                ", tel='" + tel + '\'' +
+                ", password='" + password + '\'' +
+                ", sex='" + sex + '\'' +
+                ", birthday=" + birthday +
+                ", height=" + height +
+                ", weight=" + weight +
+                ", nickname='" + nickname + '\'' +
+                ", meta=" + meta +
+                '}';
+    }
 }
