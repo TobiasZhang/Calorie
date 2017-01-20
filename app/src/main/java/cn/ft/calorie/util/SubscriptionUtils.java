@@ -21,12 +21,14 @@ public class SubscriptionUtils {
         subscriptionSet.get(activity.getClass()).add(subscription);
     }
     public static void unregister(Activity activity){
-        if(subscriptionSet.get(activity.getClass())==null)
+        Set<Subscription> targetSet = subscriptionSet.get(activity.getClass());
+        if(targetSet==null||targetSet.size()==0)
             return;
-        for(Subscription s:subscriptionSet.get(activity.getClass())){
+        for(Subscription s:targetSet){
             if(!s.isUnsubscribed()) {
                 s.unsubscribe();
             }
         }
+        targetSet.clear();
     }
 }

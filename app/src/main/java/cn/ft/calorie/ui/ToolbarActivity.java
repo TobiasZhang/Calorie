@@ -8,8 +8,6 @@ import android.view.MenuItem;
 
 import cn.ft.calorie.R;
 import cn.ft.calorie.api.ApiUtils;
-import cn.ft.calorie.event.FragmentPopupEvent;
-import cn.ft.calorie.util.RxBus;
 import cn.ft.calorie.util.SubscriptionUtils;
 
 /**
@@ -34,12 +32,6 @@ public abstract class ToolbarActivity extends AppCompatActivity {
         bindViews();
         bindListeners();
 
-        /*toolbar.setNavigationOnClickListener(v->{
-            if(getSupportFragmentManager().popBackStackImmediate())
-                RxBus.getDefault().post(new FragmentPopupEvent("update"));
-            else
-                finish();
-        });*/
     }
 
     @Override
@@ -60,5 +52,11 @@ public abstract class ToolbarActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         SubscriptionUtils.unregister(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }

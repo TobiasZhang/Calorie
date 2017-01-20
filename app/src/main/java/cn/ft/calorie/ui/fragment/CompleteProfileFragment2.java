@@ -1,11 +1,9 @@
 package cn.ft.calorie.ui.fragment;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -20,18 +18,13 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.core.ImagePipeline;
 
-import java.io.File;
 import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.R;
-import cn.ft.calorie.event.FragmentPopupEvent;
 import cn.ft.calorie.pojo.UserInfo;
-import cn.ft.calorie.ui.ToolbarActivity;
 import cn.ft.calorie.util.FragmentUtils;
-import cn.ft.calorie.util.RxBus;
-import cn.ft.calorie.util.SubscriptionUtils;
 import cn.ft.calorie.util.TakePictureUtils;
 import cn.ft.calorie.util.Utils;
 
@@ -67,17 +60,15 @@ public class CompleteProfileFragment2 extends Fragment {
             avatar.setImageURI("file://"+TakePictureUtils.tempPicFile.getPath());
         }
     }
-    AlertDialog picDialog;
     void bindListeners() {
         //欲上传头像
         avatar.setOnClickListener(v->{
-            picDialog  = new AlertDialog.Builder(getActivity())
+             new AlertDialog.Builder(getActivity())
                     .setTitle("头像")
                     .setItems(new String[]{"拍照", "本地相册"}, (dialogInterface,index) -> {
                         switch (index){
                             case 0:
                                 TakePictureUtils.takePhoto(getActivity());
-//                                picDialog.dismiss();
                                 break;
                             case 1:
                                 TakePictureUtils.takeAblum(getActivity());

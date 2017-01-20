@@ -7,10 +7,45 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="DrawerLayoutTheme" parent="AppTheme">
+    </style>
 
     <!--toolbar-->
     <style name="MyToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorControlNormal">@android:color/white</item>
         <item name="android:actionBarSize">56dp</item>
+    </style>
+
+    <!--drawerLayout option txt-->
+    <style name="DrawerOptionsTxt">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    
+    <!--css-->
+    <style name="DrawerOptionsDivider">
+        <item name="android:layout_height">0.4dp</item>
+        <item name="android:background">@color/drawerOptionsDivider</item>
+    </style>
+    <style name="MyProfileOptionsName">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    <style name="MyProfileOptionsValue">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    <!--UserDetailActivity-->
+    <style name="UserDetailOptionsName">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    <style name="UserDetailOptionsValue">
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 </resources>

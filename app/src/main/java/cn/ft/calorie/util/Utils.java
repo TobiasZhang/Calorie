@@ -1,29 +1,35 @@
 package cn.ft.calorie.util;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import cn.ft.calorie.event.UserInfoUpdateEvent;
 import cn.ft.calorie.pojo.UserInfo;
-import rx.Subscription;
+import cn.ft.calorie.ui.LoginActivity;
 
 /**
  * Created by TT on 2017/1/16.
  */
 public class Utils {
+    public static SimpleDateFormat sdf = new SimpleDateFormat();
+    public static String getFormatDate(Date date,String pattern){
+        sdf.applyPattern(pattern);
+        return sdf.format(date);
+    }
+
     public static File sysRootDir = Environment.getExternalStorageDirectory();
     public static UserInfo loginUser = new UserInfo();// TODO: 2017/1/17
     static {
         loginUser.setId("587f43493468343120dba9e8");
+        loginUser = null;
     }
     //toast
     public static void toast(Context context,String msg){
@@ -46,5 +52,21 @@ public class Utils {
         if(!isValid)
             source.requestFocus();
         return isValid;
+    }
+    //登录验证
+    public static boolean isLogin(Context context){
+        if(loginUser==null)
+            context.startActivity(new Intent(context, LoginActivity.class));
+        return loginUser!=null;
+    }
+    //登录后操作
+    public static void doOnLogin(UserInfo user){
+        Utils.loginUser = user;
+        RxBus.getDefault().post(new UserInfoUpdateEvent(user));
+    }
+    //注销后操作
+    public static void doOnLogout(){
+        Utils.loginUser = null;
+        RxBus.getDefault().post(new UserInfoUpdateEvent(null));
     }
 }

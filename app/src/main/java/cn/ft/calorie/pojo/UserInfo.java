@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Date;
 
+import cn.ft.calorie.api.ApiUtils;
+import cn.ft.calorie.util.Utils;
 import io.realm.RealmObject;
 
 /**
@@ -22,6 +24,26 @@ public class UserInfo extends RealmObject implements Serializable {
     private String avatar;
     private String nickname;
     private Meta meta;
+
+    private Integer burnTotal;
+
+    public Integer getIntakeTotal() {
+        return intakeTotal;
+    }
+
+    public void setIntakeTotal(Integer intakeTotal) {
+        this.intakeTotal = intakeTotal;
+    }
+
+    public Integer getBurnTotal() {
+        return burnTotal;
+    }
+
+    public void setBurnTotal(Integer burnTotal) {
+        this.burnTotal = burnTotal;
+    }
+
+    private Integer intakeTotal;
 
     public Date getBirthday() {
         return birthday;
@@ -104,6 +126,12 @@ public class UserInfo extends RealmObject implements Serializable {
     }
 
 
+    public String getAvatarDisplayUrl(){
+        return ApiUtils.BASE_URL+"/images/"+avatar;
+    }
+    public String getBirthdayFormatStr(){
+        return Utils.getFormatDate(birthday,"yyyy-MM-dd");
+    }
     @Override
     public String toString() {
         return "UserInfo{" +
@@ -117,6 +145,8 @@ public class UserInfo extends RealmObject implements Serializable {
                 ", weight=" + weight +
                 ", nickname='" + nickname + '\'' +
                 ", meta=" + meta +
+                ", burnTotal=" + burnTotal +
+                ", intakeTotal=" + intakeTotal +
                 '}';
     }
 }

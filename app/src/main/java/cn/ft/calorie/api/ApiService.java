@@ -2,6 +2,7 @@ package cn.ft.calorie.api;
 
 
 import cn.ft.calorie.pojo.UserInfo;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -25,8 +26,8 @@ public interface ApiService {
     /**
      * 验证手机号是否存在
      */
-    @POST(API_PATH + "user/validateTel")
-    Observable<ApiResult<Void>> validateTel(@Query("tel") String tel);
+    @POST(API_PATH + "user/isTelExist")
+    Observable<ApiResult<Boolean>> isTelExist(@Query("tel") String tel);
     /**
      * 用户注册
      */
@@ -42,5 +43,10 @@ public interface ApiService {
      */
     @Multipart
     @POST(API_PATH + "user/uploadAvatar")
-    Observable<ApiResult<String>> uploadAvatar(@Part("avatarFile")RequestBody avatarBody, @Part("uid")String uid);
+    Observable<ApiResult<String>> uploadAvatar(@Part MultipartBody.Part avatarBody, @Part("uid")String uid);
+    /**
+     * 重置密码
+     */
+    @POST(API_PATH + "user/resetPassword")
+    Observable<ApiResult<UserInfo>> resetPassword(@Body UserInfo userInfo);
 }

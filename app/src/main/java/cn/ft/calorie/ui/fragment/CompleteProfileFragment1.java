@@ -17,12 +17,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.R;
-import cn.ft.calorie.util.RxBus;
-import cn.ft.calorie.ui.ToolbarActivity;
-import cn.ft.calorie.event.FragmentPopupEvent;
 import cn.ft.calorie.pojo.UserInfo;
 import cn.ft.calorie.util.FragmentUtils;
-import cn.ft.calorie.util.SubscriptionUtils;
 import cn.ft.calorie.util.Utils;
 
 public class CompleteProfileFragment1 extends Fragment {

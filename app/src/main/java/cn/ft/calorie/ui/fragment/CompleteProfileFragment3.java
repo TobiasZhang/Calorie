@@ -1,5 +1,6 @@
 package cn.ft.calorie.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,14 +13,18 @@ import com.shawnlin.numberpicker.NumberPicker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.ft.calorie.MainActivity;
 import cn.ft.calorie.R;
 import cn.ft.calorie.api.ApiUtils;
+import cn.ft.calorie.event.UserInfoUpdateEvent;
 import cn.ft.calorie.pojo.UserInfo;
 import cn.ft.calorie.ui.ToolbarActivity;
+import cn.ft.calorie.util.RxBus;
 import cn.ft.calorie.util.SubscriptionUtils;
 import cn.ft.calorie.util.TakePictureUtils;
 import cn.ft.calorie.util.Utils;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -69,24 +74,25 @@ public class CompleteProfileFragment3 extends Fragment {
                     .getApiDataObservable(apiUtils.getApiServiceImpl().mergeUserInfo(tempUser))
                         .observeOn(Schedulers.io())
                         .flatMap(user->{
-                            System.out.println(Thread.currentThread().getName());
-
                             Utils.loginUser = user;
                             if(!wantToUploadAvatar)
                                 return Observable.just("okWithoutAvatar");
                             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), TakePictureUtils.tempPicFile);
-                            return apiUtils.getApiServiceImpl().uploadAvatar(body,user.getId());
+                            MultipartBody.Part part = MultipartBody.Part.createFormData("avatarFile",TakePictureUtils.tempPicFile.getName(),body);
+                            return apiUtils.getApiServiceImpl().uploadAvatar(part,user.getId());
                      })
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                             url->{
-                                System.out.println(Thread.currentThread().getName()+"--------subscribe----");
                                 if(!url.equals("okWithoutAvatar")){
-                                    Utils.toast(getActivity(),"头像上传成功");
+                                    //Utils.toast(getActivity(),"头像上传成功");
                                     Utils.loginUser.setAvatar(url.toString());
                                     TakePictureUtils.tempPicFile.delete();
                                 }
+                                RxBus.getDefault().post(new UserInfoUpdateEvent(Utils.loginUser));
                                 Utils.toast(getActivity(),"身份信息填写完成");
+                                //跳转至主页
+                                startActivity(new Intent(getActivity(), MainActivity.class));
                         },
                             e->{
                                 e.printStackTrace();

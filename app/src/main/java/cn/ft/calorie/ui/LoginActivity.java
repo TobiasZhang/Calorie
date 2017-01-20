@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.ft.calorie.MainActivity;
 import cn.ft.calorie.R;
 import cn.ft.calorie.listener.OnPasswordEyeListenerImpl;
 import cn.ft.calorie.pojo.UserInfo;
@@ -22,8 +23,8 @@ public class LoginActivity extends ToolbarActivity {
     EditText passwordTxt;
     @BindView(R.id.passwordEye)
     CheckBox passwordEye;
-    @BindView(R.id.forgotPassword)
-    TextView forgotPassword;
+    @BindView(R.id.forgotPasswordBtn)
+    TextView forgotPasswordBtn;
     @BindView(R.id.toRegisterBtn)
     TextView toRegisterBtn;
     @BindView(R.id.loginBtn)
@@ -57,8 +58,10 @@ public class LoginActivity extends ToolbarActivity {
             SubscriptionUtils.register(this,
                 apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().login(u)).subscribe(
                         loginUser -> {
-                            Utils.loginUser = loginUser;
-                            System.out.println(loginUser);//// TODO: 2017/1/16
+                            Utils.doOnLogin(loginUser);
+                            Utils.toast(this,"已登录");
+                            startActivity(new Intent(this, MainActivity.class));
+//                            finish();
                         },
                         err -> Utils.toast(this,err.getMessage())
                 )
@@ -67,7 +70,10 @@ public class LoginActivity extends ToolbarActivity {
         });
         //去注册页
         toRegisterBtn.setOnClickListener(v -> startActivity(new Intent(this,RegisterActivity.class)));
-
+        //去忘记密码页
+        forgotPasswordBtn.setOnClickListener(v -> {
+             startActivity(new Intent(this,ResetPasswordActivity.class));
+        });
     }
 
 

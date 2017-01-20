@@ -10,6 +10,7 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.R;
+import cn.ft.calorie.api.ApiException;
 import cn.ft.calorie.listener.OnPasswordEyeListenerImpl;
 import cn.ft.calorie.pojo.UserInfo;
 import cn.ft.calorie.util.SubscriptionUtils;
@@ -30,6 +31,8 @@ public class RegisterActivity extends ToolbarActivity {
     EditText validationCodeTxt;
     @BindView(R.id.registerBtn)
     Button registerBtn;
+
+    String tel;
     @Override
     protected void setLayout() {
         setContentView(R.layout.activity_register);
@@ -49,8 +52,11 @@ public class RegisterActivity extends ToolbarActivity {
             if(!Utils.isTelValid(tel,telTxt)) return;
             //验证手机号是否重复
             SubscriptionUtils.register(this,
-                apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().validateTel(tel))
-                        .subscribe(aVoid -> {
+                apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().isTelExist(tel))
+                        .subscribe(isTelExist -> {
+                            if(isTelExist)
+                                throw new ApiException("该用户已存在");
+                            this.tel = tel;
                             // TODO: 2017/1/17//发送验证码
                             Utils.toast(this,"发送验证码");
                         },e->{
@@ -60,17 +66,20 @@ public class RegisterActivity extends ToolbarActivity {
         });
         //注册
         registerBtn.setOnClickListener(v -> {
-            String tel = telTxt.getText().toString().trim();
-            if(!Utils.isTelValid(tel,telTxt)) return;
+            String tel = this.tel;
+            /*String tel = telTxt.getText().toString().trim();
+            if(!Utils.isTelValid(tel,telTxt)) return;*/
             String password = passwordTxt.getText().toString().trim();
             if(!Utils.isPasswordValid(password,passwordTxt)) return;
             String validationCode = validationCodeTxt.getText().toString().trim();
             if(!isValidationCodeValid(validationCode))return;
             //验证手机号是否重复
             SubscriptionUtils.register(this,
-                apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().validateTel(tel))
+                apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().isTelExist(tel))
                         .observeOn(Schedulers.io())
-                        .flatMap(aVoid -> {
+                        .flatMap(isTelExist -> {
+                            if(isTelExist)
+                                throw new ApiException("该用户已存在");
                             System.out.println(Thread.currentThread().getName()+"--------");
                             UserInfo u = new UserInfo();
                             u.setTel(tel);
@@ -79,8 +88,8 @@ public class RegisterActivity extends ToolbarActivity {
                         })
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(user -> {
-                            Utils.loginUser = user;
                             Utils.toast(this,"注册成功");
+                            Utils.doOnLogin(user);
                             startActivity(new Intent(this,CompleteProfileActivity.class));
                             finish();
                         },e->{
