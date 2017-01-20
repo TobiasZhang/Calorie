@@ -52,8 +52,8 @@ public class TakePictureUtils {
                             intent.putExtra("aspectX", 1);
                             intent.putExtra("aspectY", 1);
                             // outputX outputY 是裁剪图片宽高
-                            intent.putExtra("outputX",1000);
-                            intent.putExtra("outputY",1000);
+                            intent.putExtra("outputX",300);
+                            intent.putExtra("outputY",300);
                             intent.putExtra("noFaceDetection", true);
                             activity.startActivityForResult(intent, REQUEST_PIC_AFTER_CROP);
                             break;
@@ -73,8 +73,8 @@ public class TakePictureUtils {
                                 intent2.putExtra("aspectX", 1);
                                 intent2.putExtra("aspectY", 1);
                                 // outputX outputY 是裁剪图片宽高
-                                intent2.putExtra("outputX",1000);
-                                intent2.putExtra("outputY",1000);
+                                intent2.putExtra("outputX",300);
+                                intent2.putExtra("outputY",300);
                                 intent2.putExtra("noFaceDetection", true);
                                 activity.startActivityForResult(intent2, REQUEST_PIC_AFTER_CROP);
                             } catch (Exception e) {

@@ -2,7 +2,6 @@ package cn.ft.calorie.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Contacts;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -11,6 +10,10 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.R;
+import cn.ft.calorie.event.UserInfoUpdateEvent;
+import cn.ft.calorie.pojo.UserInfo;
+import cn.ft.calorie.util.RxBus;
+import cn.ft.calorie.util.SubscriptionUtils;
 import cn.ft.calorie.util.Utils;
 
 public class MyProfileActivity extends ToolbarActivity {
@@ -53,5 +56,15 @@ public class MyProfileActivity extends ToolbarActivity {
         userDetailBtn.setOnClickListener(v->{
             startActivity(new Intent(this, UserDetailActivity.class));
         });
+        //用户更新event
+        SubscriptionUtils.register(this,
+                RxBus.getDefault().toObservable(UserInfoUpdateEvent.class)
+                .subscribe(event -> {
+                    UserInfo u = event.getNewUser();
+                    System.out.println("----update event-------"+u.getAvatarDisplayUrl());
+                    avatar.setImageURI(u.getAvatarDisplayUrl());
+                    nicknameTxt.setText(u.getNickname());
+                }));
+
     }
 }

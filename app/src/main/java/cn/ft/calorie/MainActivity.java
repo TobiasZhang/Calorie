@@ -53,6 +53,7 @@ public class MainActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println(Utils.getDPI(this)+"-----dpi");
     }
 
     @Override
@@ -105,14 +106,14 @@ public class MainActivity extends ToolbarActivity {
         //登录改变事件
         SubscriptionUtils.register(this,
                 RxBus.getDefault().toObservable(UserInfoUpdateEvent.class).subscribe(event->{
-                    if(event.getLoginUser()==null){//注销
+                    if(event.getNewUser()==null){//注销
                         drawerLogin.setVisibility(View.GONE);
                         drawerGuest.setVisibility(View.VISIBLE);
                     }else{//登录
                         drawerLogin.setVisibility(View.VISIBLE);
                         drawerGuest.setVisibility(View.GONE);
-                        avatar.setImageURI(event.getLoginUser().getAvatarDisplayUrl());
-                        nicknameTxt.setText(event.getLoginUser().getNickname());
+                        avatar.setImageURI(event.getNewUser().getAvatarDisplayUrl());
+                        nicknameTxt.setText(event.getNewUser().getNickname());
                     }
 
         }));

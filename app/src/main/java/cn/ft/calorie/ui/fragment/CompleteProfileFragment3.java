@@ -79,14 +79,14 @@ public class CompleteProfileFragment3 extends Fragment {
                                 return Observable.just("okWithoutAvatar");
                             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), TakePictureUtils.tempPicFile);
                             MultipartBody.Part part = MultipartBody.Part.createFormData("avatarFile",TakePictureUtils.tempPicFile.getName(),body);
-                            return apiUtils.getApiServiceImpl().uploadAvatar(part,user.getId());
+                            return apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().uploadAvatar(part,user.getId()));
                      })
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                             url->{
                                 if(!url.equals("okWithoutAvatar")){
                                     //Utils.toast(getActivity(),"头像上传成功");
-                                    Utils.loginUser.setAvatar(url.toString());
+                                    Utils.loginUser.setAvatar(url);
                                     TakePictureUtils.tempPicFile.delete();
                                 }
                                 RxBus.getDefault().post(new UserInfoUpdateEvent(Utils.loginUser));

@@ -1,9 +1,11 @@
 package cn.ft.calorie.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -69,4 +71,5 @@ public class Utils {
         Utils.loginUser = null;
         RxBus.getDefault().post(new UserInfoUpdateEvent(null));
     }
+
 }

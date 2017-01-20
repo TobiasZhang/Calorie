@@ -6,18 +6,18 @@ import cn.ft.calorie.pojo.UserInfo;
  * Created by TT on 2017/1/19.
  */
 public class UserInfoUpdateEvent {
-    private UserInfo loginUser;
+    private UserInfo newUser;
 
-    public UserInfo getLoginUser() {
-        return loginUser;
+    public UserInfo getNewUser() {
+        return newUser;
     }
 
-    public void setLoginUser(UserInfo loginUser) {
-        this.loginUser = loginUser;
+    public void setNewUser(UserInfo newUser) {
+        this.newUser = newUser;
     }
 
-    public UserInfoUpdateEvent(UserInfo loginUser) {
+    public UserInfoUpdateEvent(UserInfo newUser) {
 
-        this.loginUser = loginUser;
+        this.newUser = newUser;
     }
 }

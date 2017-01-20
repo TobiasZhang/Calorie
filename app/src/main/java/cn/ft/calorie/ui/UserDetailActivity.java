@@ -144,7 +144,7 @@ public class UserDetailActivity extends ToolbarActivity {
                                     if(wantToUploadAvatar){
                                         RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), TakePictureUtils.tempPicFile);
                                         MultipartBody.Part part = MultipartBody.Part.createFormData("avatarFile",TakePictureUtils.tempPicFile.getName(),body);
-                                        return apiUtils.getApiServiceImpl().uploadAvatar(part,userInfo.getId());
+                                        return apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().uploadAvatar(part,userInfo.getId()));
                                     }else{
                                         return Observable.just("okWithoutAvatar");
                                     }
@@ -152,7 +152,7 @@ public class UserDetailActivity extends ToolbarActivity {
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(url->{
                                             if(!url.equals("okWithoutAvatar")){
-                                                Utils.loginUser.setAvatar(url.toString());
+                                                Utils.loginUser.setAvatar(url);
                                                 //TakePictureUtils.tempPicFile.delete(); onDestroy已做
                                             }
                                             RxBus.getDefault().post(new UserInfoUpdateEvent(Utils.loginUser));
@@ -168,7 +168,7 @@ public class UserDetailActivity extends ToolbarActivity {
                 );
                 break;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

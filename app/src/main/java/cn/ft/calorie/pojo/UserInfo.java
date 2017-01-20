@@ -127,7 +127,7 @@ public class UserInfo extends RealmObject implements Serializable {
 
 
     public String getAvatarDisplayUrl(){
-        return ApiUtils.BASE_URL+"/images/"+avatar;
+        return ApiUtils.BASE_URL+"/upload_avatars/"+avatar;
     }
     public String getBirthdayFormatStr(){
         return Utils.getFormatDate(birthday,"yyyy-MM-dd");
