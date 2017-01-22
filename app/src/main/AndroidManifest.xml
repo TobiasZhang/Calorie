@@ -23,18 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.LoginActivity">
-        </activity>
-        <activity android:name=".ui.RegisterActivity">
-        </activity>
-        <activity android:name=".ui.CompleteProfileActivity">
-        </activity>
-        <activity android:name=".ui.ResetPasswordActivity">
-        </activity>
-        <activity android:name=".ui.MyProfileActivity">
-        </activity>
-        <activity android:name=".ui.UserDetailActivity">
-        </activity>
+        <activity android:name=".ui.LoginActivity"/>
+        <activity android:name=".ui.RegisterActivity"/>
+        <activity android:name=".ui.CompleteProfileActivity"/>
+        <activity android:name=".ui.ResetPasswordActivity"/>
+        <activity android:name=".ui.MyProfileActivity"/>
+        <activity android:name=".ui.MyDetailActivity"/>
+        <activity android:name=".ui.MyIntakeActivity"/>
+        <activity android:name=".ui.MyBurnActivity"/>
+        <activity android:name=".ui.MyWeightActivity"/>
     </application>
 
 </manifest>

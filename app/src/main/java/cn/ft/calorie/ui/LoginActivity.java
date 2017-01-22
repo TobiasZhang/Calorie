@@ -63,7 +63,12 @@ public class LoginActivity extends ToolbarActivity {
                             startActivity(new Intent(this, MainActivity.class));
 //                            finish();
                         },
-                        err -> Utils.toast(this,err.getMessage())
+                        err -> {
+                            Utils.toast(this,err.getMessage());
+                            err.printStackTrace();
+
+                        }
+
                 )
             );
 

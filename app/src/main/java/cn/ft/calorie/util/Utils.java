@@ -21,12 +21,6 @@ import cn.ft.calorie.ui.LoginActivity;
  * Created by TT on 2017/1/16.
  */
 public class Utils {
-    public static SimpleDateFormat sdf = new SimpleDateFormat();
-    public static String getFormatDate(Date date,String pattern){
-        sdf.applyPattern(pattern);
-        return sdf.format(date);
-    }
-
     public static File sysRootDir = Environment.getExternalStorageDirectory();
     public static UserInfo loginUser = new UserInfo();// TODO: 2017/1/17
     static {

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".ui.UserDetailActivity">
+    tools:context=".ui.MyDetailActivity">
     <include android:id="@+id/toolbarBlock" layout="@layout/include_toolbar"/>
     <View
         android:layout_width="match_parent"

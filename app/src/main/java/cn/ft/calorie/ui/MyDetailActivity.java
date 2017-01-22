@@ -33,7 +33,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class UserDetailActivity extends ToolbarActivity {
+public class MyDetailActivity extends ToolbarActivity {
     @BindView(R.id.avatar)
     SimpleDraweeView avatar;
     @BindView(R.id.avatarBtn)
@@ -64,7 +64,7 @@ public class UserDetailActivity extends ToolbarActivity {
 
     @Override
     protected void setLayout() {
-        setContentView(R.layout.activity_user_detail);
+        setContentView(R.layout.activity_my_detail);
     }
     @Override
     protected void bindViews() {

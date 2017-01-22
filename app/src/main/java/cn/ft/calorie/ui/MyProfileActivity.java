@@ -17,7 +17,6 @@ import cn.ft.calorie.util.SubscriptionUtils;
 import cn.ft.calorie.util.Utils;
 
 public class MyProfileActivity extends ToolbarActivity {
-
     @BindView(R.id.avatar)
     SimpleDraweeView avatar;
     @BindView(R.id.nicknameTxt)
@@ -54,7 +53,19 @@ public class MyProfileActivity extends ToolbarActivity {
     protected void bindListeners() {
         //个人信息页
         userDetailBtn.setOnClickListener(v->{
-            startActivity(new Intent(this, UserDetailActivity.class));
+            startActivity(new Intent(this, MyDetailActivity.class));
+        });
+        //我的摄入页
+        intakeRecordBtn.setOnClickListener(v->{
+            startActivity(new Intent(this,MyIntakeActivity.class));
+        });
+        //我的锻炼页
+        burnRecordBtn.setOnClickListener(v->{
+            startActivity(new Intent(this,MyBurnActivity.class));
+        });
+        //我的体重页
+        weightRecordBtn.setOnClickListener(v->{
+            startActivity(new Intent(this,MyWeightActivity.class));
         });
         //用户更新event
         SubscriptionUtils.register(this,

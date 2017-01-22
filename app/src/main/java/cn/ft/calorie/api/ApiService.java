@@ -1,15 +1,23 @@
 package cn.ft.calorie.api;
 
 
+import java.util.List;
+import java.util.Map;
+
+import cn.ft.calorie.pojo.BurnRecord;
+import cn.ft.calorie.pojo.IntakeRecord;
 import cn.ft.calorie.pojo.UserInfo;
+import cn.ft.calorie.pojo.WeigthRecord;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
@@ -49,4 +57,21 @@ public interface ApiService {
      */
     @POST(API_PATH + "user/resetPassword")
     Observable<ApiResult<UserInfo>> resetPassword(@Body UserInfo userInfo);
+
+    /**
+     * 摄入记录
+     */
+    @GET(API_PATH + "intakeRecord")
+    Observable<ApiResult<List<IntakeRecord>>> getIntakeRecords(@QueryMap Map<String,String> options);
+    /**
+     * 锻炼记录
+     */
+    @GET(API_PATH + "burnRecord")
+    Observable<ApiResult<List<BurnRecord>>> getBurnRecords(@QueryMap Map<String,String> options);
+    /**
+     * 体重记录
+     */
+    @GET(API_PATH + "weightRecord")
+    Observable<ApiResult<List<WeigthRecord>>> getWeigthRecords(@QueryMap Map<String,String> options);
+
 }

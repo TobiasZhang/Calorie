@@ -1,5 +1,7 @@
 package cn.ft.calorie.api;
 
+import android.widget.Scroller;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;

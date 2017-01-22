@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import cn.ft.calorie.api.ApiUtils;
+import cn.ft.calorie.util.TimeUtils;
 import cn.ft.calorie.util.Utils;
 import io.realm.RealmObject;
 
@@ -130,7 +131,7 @@ public class UserInfo extends RealmObject implements Serializable {
         return ApiUtils.BASE_URL+"/upload_avatars/"+avatar;
     }
     public String getBirthdayFormatStr(){
-        return Utils.getFormatDate(birthday,"yyyy-MM-dd");
+        return TimeUtils.getFormatDate(birthday,"yyyy-MM-dd");
     }
     @Override
     public String toString() {

@@ -53,7 +53,6 @@ public class MainActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println(Utils.getDPI(this)+"-----dpi");
     }
 
     @Override
