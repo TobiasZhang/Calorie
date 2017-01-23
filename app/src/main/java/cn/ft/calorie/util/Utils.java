@@ -3,6 +3,8 @@ package cn.ft.calorie.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -58,12 +60,32 @@ public class Utils {
     //登录后操作
     public static void doOnLogin(UserInfo user){
         Utils.loginUser = user;
-        RxBus.getDefault().post(new UserInfoUpdateEvent(user));
+        RxBus.getDefault().post(new UserInfoUpdateEvent(true,user));
     }
     //注销后操作
     public static void doOnLogout(){
         Utils.loginUser = null;
-        RxBus.getDefault().post(new UserInfoUpdateEvent(null));
+        RxBus.getDefault().post(new UserInfoUpdateEvent(true,null));
     }
 
+    //获得版本号
+    public static int getVersionCode(Context context){
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    //获得版本名称
+    public static String getVersionName(Context context){
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

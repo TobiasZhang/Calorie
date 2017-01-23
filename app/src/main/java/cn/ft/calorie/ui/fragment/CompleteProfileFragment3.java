@@ -89,7 +89,7 @@ public class CompleteProfileFragment3 extends Fragment {
                                     Utils.loginUser.setAvatar(url);
                                     TakePictureUtils.tempPicFile.delete();
                                 }
-                                RxBus.getDefault().post(new UserInfoUpdateEvent(Utils.loginUser));
+                                RxBus.getDefault().post(new UserInfoUpdateEvent(false,Utils.loginUser));
                                 Utils.toast(getActivity(),"身份信息填写完成");
                                 //跳转至主页
                                 startActivity(new Intent(getActivity(), MainActivity.class));

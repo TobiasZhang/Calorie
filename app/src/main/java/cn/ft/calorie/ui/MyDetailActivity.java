@@ -155,7 +155,7 @@ public class MyDetailActivity extends ToolbarActivity {
                                                 Utils.loginUser.setAvatar(url);
                                                 //TakePictureUtils.tempPicFile.delete(); onDestroy已做
                                             }
-                                            RxBus.getDefault().post(new UserInfoUpdateEvent(Utils.loginUser));
+                                            RxBus.getDefault().post(new UserInfoUpdateEvent(false,Utils.loginUser));
                                             Utils.toast(this,"保存成功");
                                             finish();
                                         },

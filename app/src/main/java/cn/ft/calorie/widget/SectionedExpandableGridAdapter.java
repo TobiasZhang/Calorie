@@ -51,6 +51,7 @@ public abstract class SectionedExpandableGridAdapter<SEC extends SectionedExpand
             if (key.isExpanded)
                 mDataList.addAll(entry.getValue());
         }
+
     }
     public void addSection(SEC newSection, List<ITEM> items) {
         mSectionMap.put(newSection.getSectionName(), newSection);

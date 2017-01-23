@@ -7,6 +7,7 @@ import cn.ft.calorie.pojo.UserInfo;
  */
 public class UserInfoUpdateEvent {
     private UserInfo newUser;
+    private boolean isUserChanged;
 
     public UserInfo getNewUser() {
         return newUser;
@@ -16,8 +17,17 @@ public class UserInfoUpdateEvent {
         this.newUser = newUser;
     }
 
-    public UserInfoUpdateEvent(UserInfo newUser) {
+    public boolean isUserChanged() {
+        return isUserChanged;
+    }
 
+    public void setUserChanged(boolean userChanged) {
+        isUserChanged = userChanged;
+    }
+
+    public UserInfoUpdateEvent(boolean isUserChanged, UserInfo newUser) {
         this.newUser = newUser;
+        this.isUserChanged = isUserChanged;
+
     }
 }

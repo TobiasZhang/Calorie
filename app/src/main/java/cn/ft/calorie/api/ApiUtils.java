@@ -2,6 +2,10 @@ package cn.ft.calorie.api;
 
 import android.widget.Scroller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.text.DateFormat;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -31,11 +35,15 @@ public class ApiUtils {
     //构造方法私有
     private ApiUtils(){
         //手动创建一个OkHttpClient并设置超时时间
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .build();
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                .create();
         Retrofit retrofit = new Retrofit.Builder()
-                .client(builder.build())
-                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(BASE_URL)
                 .build();

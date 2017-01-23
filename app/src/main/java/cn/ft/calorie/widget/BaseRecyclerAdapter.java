@@ -92,10 +92,18 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
 
     /** 清除所有数据 */
     public void removeAll() {
+        int count = mDataList.size();
         mDataList.clear();
+        notifyItemRangeRemoved(0,count);
+    }
+    /**
+     * 替换
+     */
+    public void replaceItems(List<T> datas){
+        mDataList.clear();
+        mDataList.addAll(datas);
         notifyDataSetChanged();
     }
-
 
     /**
      * 点击事件
@@ -127,9 +135,9 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(VH holder, int position) {
         holder.itemView.setOnClickListener(this);
-        onBindVH(holder,position,getItemViewType(position));
+        onBindVH(holder,position,getItemViewType(position),mDataList.get(position));
     }
 
     protected abstract VH onCreateVH(ViewGroup parent, int viewType);
-    protected abstract void onBindVH(VH holder, int position ,int viewType);
+    protected abstract void onBindVH(VH holder, int position ,int viewType,T data);
 }

@@ -5,23 +5,44 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.event.UserInfoUpdateEvent;
+import cn.ft.calorie.pojo.BurnRecord;
+import cn.ft.calorie.pojo.IntakeRecord;
+import cn.ft.calorie.ui.AboutUsActivity;
+import cn.ft.calorie.ui.FeedbackActivity;
 import cn.ft.calorie.ui.LoginActivity;
 import cn.ft.calorie.ui.MyProfileActivity;
 import cn.ft.calorie.ui.ToolbarActivity;
+import cn.ft.calorie.ui.adapter.HomeSectionAdapter;
 import cn.ft.calorie.util.RxBus;
 import cn.ft.calorie.util.SubscriptionUtils;
+import cn.ft.calorie.util.TimeUtils;
 import cn.ft.calorie.util.Utils;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends ToolbarActivity {
     @BindView(R.id.nicknameTxt)
@@ -42,17 +63,23 @@ public class MainActivity extends ToolbarActivity {
     RelativeLayout encourageBtn;
     @BindView(R.id.shareAppBtn)
     RelativeLayout shareAppBtn;
-    @BindView(R.id.aboutBtn)
-    RelativeLayout aboutBtn;
+    @BindView(R.id.aboutUsBtn)
+    RelativeLayout aboutUsBtn;
     @BindView(R.id.logoutBtn)
     RelativeLayout logoutBtn;
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
-    ActionBarDrawerToggle actionBarDrawerToggle;
+    private List<Map<String,Object>> dataList = new ArrayList<>();
+    HomeSectionAdapter homeSectionAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // TODO: 2017/1/22 获取user
+        RxBus.getDefault().post(new UserInfoUpdateEvent(true,null));
+
     }
 
     @Override
@@ -64,64 +91,159 @@ public class MainActivity extends ToolbarActivity {
     @Override
     protected void bindViews() {
         toolbar.setTitle("首页");
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout, toolbar, R.string.open, R.string.close);
-        if(Utils.loginUser==null){
-            drawerLogin.setVisibility(View.GONE);
-            drawerGuest.setVisibility(View.VISIBLE);
-        }else{
-            drawerLogin.setVisibility(View.VISIBLE);
-            drawerGuest.setVisibility(View.GONE);
-        }
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        //drawertoggle关联
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        homeSectionAdapter = new HomeSectionAdapter(this);
+        recyclerView.setAdapter(homeSectionAdapter);
     }
 
     @Override
     protected void bindListeners() {
-        //menu
-        toolbar.setOnMenuItemClickListener(menuItem -> {
-            switch (menuItem.getItemId()){
-                case R.id.my:
-                    if(Utils.isLogin(this))
-                        startActivity(new Intent(this,MyProfileActivity.class));
-                    break;
-            }
-            return true;
-        });
-        //drawertoggle关联
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
         //去登录
         loginBtn.setOnClickListener(v -> startActivity(new Intent(this, LoginActivity.class)));
+        //意见反馈
+        feedbackBtn.setOnClickListener(v -> {
+            if (Utils.isLogin(this))
+                startActivity(new Intent(this, FeedbackActivity.class));
+        });
+        //关于
+        aboutUsBtn.setOnClickListener(v -> startActivity(new Intent(this, AboutUsActivity.class)));
         //注销
-        logoutBtn.setOnClickListener(v->
-            new AlertDialog.Builder(this)
-                    .setTitle("确认退出登录？")
-                    .setNegativeButton("取消",null)
-                    .setPositiveButton("确认",(dialog,which)->{
-                        Utils.toast(this,"已退出登录");
-                        Utils.doOnLogout();
-                    })
-                    .show()
+        logoutBtn.setOnClickListener(v ->
+                new AlertDialog.Builder(this)
+                        .setTitle("确认退出登录？")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确认", (dialog, which) -> {
+                            Utils.toast(this, "已退出登录");
+                            Utils.doOnLogout();
+                        })
+                        .show()
         );
         //登录改变事件
         SubscriptionUtils.register(this,
-                RxBus.getDefault().toObservable(UserInfoUpdateEvent.class).subscribe(event->{
-                    if(event.getNewUser()==null){//注销
+                RxBus.getDefault().toObservable(UserInfoUpdateEvent.class).subscribe(event -> {
+                    if(event.isUserChanged()){
+                        httpRequest();
+                    }
+                    if (event.getNewUser() == null) {//注销
                         drawerLogin.setVisibility(View.GONE);
                         drawerGuest.setVisibility(View.VISIBLE);
-                    }else{//登录
+                        logoutBtn.setVisibility(View.GONE);
+                    } else {//登录
                         drawerLogin.setVisibility(View.VISIBLE);
                         drawerGuest.setVisibility(View.GONE);
                         avatar.setImageURI(event.getNewUser().getAvatarDisplayUrl());
                         nicknameTxt.setText(event.getNewUser().getNickname());
+                        logoutBtn.setVisibility(View.VISIBLE);
                     }
 
-        }));
+                }));
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //toolbar menu
-        getMenuInflater().inflate(R.menu.toolbar_main,menu);
+        getMenuInflater().inflate(R.menu.toolbar_main, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            //menu 我的
+            case R.id.my:
+                if (Utils.isLogin(this))
+                    startActivity(new Intent(this, MyProfileActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    void httpRequest(){
+        dataList.clear();
+        homeSectionAdapter.removeAll();
+        Map<String,Object> intakeMap = new HashMap<>();
+        intakeMap.put("foodCategoryCount",0);
+        intakeMap.put("intakeCalorie",0);
+        Map<String,Object> burnMap = new HashMap<>();
+        burnMap.put("burnCalorie",0);
+        burnMap.put("intakeCalorie",0);
+        Map<String,Object> weightMap = new HashMap<>();
+        weightMap.put("weight",0);
+
+        dataList.add(intakeMap);
+        dataList.add(burnMap);
+        dataList.add(weightMap);
+
+        if(Utils.loginUser==null){
+            homeSectionAdapter.replaceItems(dataList);
+            return;
+        }
+        String userId = Utils.loginUser.getId();
+
+
+        Map<String,String> options = new HashMap<>();
+        options.put("userId",userId);
+        options.put("startDate",TimeUtils.getTodayGMTString());
+        options.put("endDate",TimeUtils.getTodayGMTString(1));
+
+        SubscriptionUtils.register(this,apiUtils.getApiDataObservable(
+                //饮食记录
+                apiUtils.getApiServiceImpl().getIntakeRecords(options))
+                        .observeOn(Schedulers.io())
+                        .flatMap(intakeRecords->{
+                            Set<String> foodDistinctSet = new HashSet<String>();
+                            int currFoodCategoryCount = 0;
+                            int currIntake = 0;
+                            for(IntakeRecord intakeRecord:intakeRecords){
+                                String foodId = intakeRecord.getFood().getId();
+                                if(!foodDistinctSet.contains(foodId)){
+                                    foodDistinctSet.add(foodId);
+                                    currFoodCategoryCount++;
+                                }
+                                currIntake += intakeRecord.getCalorie();
+                            }
+                            intakeMap.put("foodCategoryCount",currFoodCategoryCount);//食物种类
+                            intakeMap.put("intakeCalorie",currIntake);//饮食记录摄入卡路里
+                            burnMap.put("intakeCalorie",currIntake);//锻炼记录摄入卡路里
+                            //锻炼记录
+                            return apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().getBurnRecords(options));
+                        })
+                        .flatMap(burnRecords -> {
+                            int currBurn = 0;
+                            for(BurnRecord burnRecord:burnRecords){
+                                currBurn += burnRecord.getCalorie();
+                            }
+                            //今天消耗
+                            burnMap.put("burnCalorie",currBurn);
+                            return apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().getWeigthRecords(options));
+                        })
+                        .map(weigthRecords -> {
+                            int weight = 0;
+                            if(weigthRecords.size()>0){
+                                weight = weigthRecords.get(0).getWeight();
+                            }
+                            weightMap.put("weight",weight);
+                            return null;
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                aVoid->{
+                                    homeSectionAdapter.replaceItems(dataList);
+                                },
+                                e->{
+                                    e.printStackTrace();
+                                    Utils.toast(this,e.getMessage());
+                                }
+                        )
+                        );
+    }
+    void addDataList(){
+
     }
 }

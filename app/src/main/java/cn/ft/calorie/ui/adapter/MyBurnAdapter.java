@@ -33,7 +33,7 @@ public class MyBurnAdapter extends SectionedExpandableGridAdapter<MyIntakeSectio
 
     @Override
     protected RecyclerView.ViewHolder onCreateVH(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(viewType, parent, false);
+        View view = mInflater.inflate(viewType, parent, false);
         if (viewType == VIEW_TYPE_ITEM)
             return new MyVH4Item(view);
         else
@@ -41,11 +41,11 @@ public class MyBurnAdapter extends SectionedExpandableGridAdapter<MyIntakeSectio
     }
 
     @Override
-    protected void onBindVH(RecyclerView.ViewHolder holder, int position, int viewType) {
+    protected void onBindVH(RecyclerView.ViewHolder holder, int position, int viewType,Object data) {
         switch (viewType) {
             case VIEW_TYPE_ITEM:
                 MyVH4Item holder4Item = (MyVH4Item) holder;
-                final BurnRecord item = (BurnRecord) mDataList.get(position);
+                final BurnRecord item = (BurnRecord) data;
                 holder4Item.distanceTxt.setText("跑步"+item.getDistance()+"m");
                 holder4Item.durationTxt.setText("用时 "+item.getDuration());
                 holder4Item.speedTxt.setText("速度"+item.getSpeed() + "m/s");
@@ -53,7 +53,7 @@ public class MyBurnAdapter extends SectionedExpandableGridAdapter<MyIntakeSectio
                 break;
             case VIEW_TYPE_SECTION:
                 MyVH4Section holder4Section = (MyVH4Section) holder;
-                final MyIntakeSection section = (MyIntakeSection) mDataList.get(position);
+                final MyIntakeSection section = (MyIntakeSection) data;
                 holder4Section.dateTxt.setText(section.getDate());
                 holder4Section.totalCalorieTxt.setText(section.getCalorie() + "卡");
                 break;

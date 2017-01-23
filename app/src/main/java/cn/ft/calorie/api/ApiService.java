@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.ft.calorie.pojo.BurnRecord;
+import cn.ft.calorie.pojo.Feedback;
 import cn.ft.calorie.pojo.IntakeRecord;
 import cn.ft.calorie.pojo.UserInfo;
 import cn.ft.calorie.pojo.WeigthRecord;
@@ -74,4 +75,9 @@ public interface ApiService {
     @GET(API_PATH + "weightRecord")
     Observable<ApiResult<List<WeigthRecord>>> getWeigthRecords(@QueryMap Map<String,String> options);
 
+    /**
+     * 用户反馈
+     */
+    @POST(ADMIN_PATH+"feedback/merge")
+    Observable<ApiResult<Void>> addFeedback(@Body Feedback feedback);
 }

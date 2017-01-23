@@ -44,6 +44,10 @@ public class ExampleUnitTest {
                     System.out.println(records.size()+"---------size");
                 });
     }
-
+    @Test
+    public void dd(){
+        int a = (int) ((double)10/100*100);
+        System.out.println(a);
+    }
 
 }

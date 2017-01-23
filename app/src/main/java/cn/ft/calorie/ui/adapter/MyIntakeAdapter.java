@@ -43,18 +43,18 @@ public class MyIntakeAdapter extends SectionedExpandableGridAdapter<MyIntakeSect
     }
 
     @Override
-    protected void onBindVH(RecyclerView.ViewHolder holder, int position,int viewType) {
+    protected void onBindVH(RecyclerView.ViewHolder holder, int position,int viewType,Object data) {
         switch (viewType) {
             case VIEW_TYPE_ITEM:
                 MyVH4Item holder4Item = (MyVH4Item) holder;
-                final IntakeRecord item = (IntakeRecord) mDataList.get(position);
+                final IntakeRecord item = (IntakeRecord) data;
                 holder4Item.foodNameTxt.setText(item.getFood().getName());
                 holder4Item.foodWeightTxt.setText(item.getFoodWeight() + "g");
                 holder4Item.foodCalorieTxt.setText(item.getCalorie()+"卡");
                 break;
             case VIEW_TYPE_SECTION:
                 MyVH4Section holder4Section = (MyVH4Section) holder;
-                final MyIntakeSection section = (MyIntakeSection) mDataList.get(position);
+                final MyIntakeSection section = (MyIntakeSection) data;
                 holder4Section.dateTxt.setText(section.getDate());
                 holder4Section.totalCalorieTxt.setText(section.getCalorie()+"卡");
                 break;

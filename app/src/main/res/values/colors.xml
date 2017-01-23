@@ -5,4 +5,11 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="drawerOptionsDivider">#cccccc</color>
+
+    <color name="homeIntakeBackground">#aa009688</color>
+    <color name="homeIntakeForeground">#009688</color>
+    <color name="homeBurnBackground">#aaff0000</color>
+    <color name="homeBurnForeground">#ff0000</color>
+    <color name="homeWeightBackground">#aaffaf00</color>
+    <color name="homeWeightForeground">#ffaf00</color>
 </resources>

@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,6 +70,9 @@ public class MyWeightActivity extends ToolbarActivity {
                 .subscribe(records->{
                     adapter.addItems(records);
                     swipeRefreshLayout.setRefreshing(false);
+                },e->{
+                    e.printStackTrace();
+                    Utils.toast(this,e.getMessage());
                 })
         );
     }

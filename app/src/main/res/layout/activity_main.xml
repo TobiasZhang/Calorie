@@ -14,16 +14,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <include android:id="@+id/toolbarBlock" layout="@layout/include_toolbar"/>
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="123"/>
-        </LinearLayout>
+            ></android.support.v7.widget.RecyclerView>
     </LinearLayout>
     <android.support.design.internal.ScrimInsetsFrameLayout
         android:id="@+id/scrimInsetsFrameLayout"
@@ -33,7 +28,6 @@
         app:insetForeground="#1000"
         android:fitsSystemWindows="true"
         >
-
         <include layout="@layout/drawer_content"/>
     </android.support.design.internal.ScrimInsetsFrameLayout>
 </android.support.v4.widget.DrawerLayout>

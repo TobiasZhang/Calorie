@@ -31,8 +31,7 @@ public class MyWeightAdapter extends BaseRecyclerAdapter<WeigthRecord, MyWeightA
     }
 
     @Override
-    protected void onBindVH(MyVH4Item holder4Item, int position, int viewType) {
-        WeigthRecord item = mDataList.get(position);
+    protected void onBindVH(MyVH4Item holder4Item, int position, int viewType,WeigthRecord item) {
         holder4Item.dateTxt.setText(TimeUtils.getFormatDate(item.getMeta().getCreatedAt(),"yyyy-MM-dd"));
         holder4Item.weightTxt.setText(item.getWeight()+"kg");
     }

@@ -6,8 +6,23 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowAnimationStyle">@style/SceneAnim</item>
     </style>
     <style name="DrawerLayoutTheme" parent="AppTheme">
+    </style>
+    <!--scene anim-->
+    <style name="SceneAnim" parent="@android:style/Animation.Activity">
+        <!--activity-->
+        <item name="android:activityOpenEnterAnimation">@anim/activity_slide_in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_slide_out_to_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_slide_in_from_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_slide_out_to_right</item>
+        <!--fragment-->
+        <item name="android:fragmentOpenEnterAnimation">@anim/activity_slide_in_from_right</item>
+        <item name="android:fragmentOpenExitAnimation">@anim/activity_slide_out_to_left</item>
+        <item name="android:fragmentCloseEnterAnimation">@anim/activity_slide_in_from_left</item>
+        <item name="android:fragmentCloseExitAnimation">@anim/activity_slide_out_to_right</item>
     </style>
 
     <!--toolbar-->
@@ -48,4 +63,66 @@
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:textColor">@android:color/black</item>
     </style>
+
+    <!--home header-->
+    <style name="HomeHeader">
+        <item name="android:layout_height">130dp</item>
+    </style>
+    <style name="HomeHeaderIcon">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
+    <!--home footer grid-->
+    <style name="HomeFooterGrid">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+    <style name="HomeFooterGridTxt">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="HomeFooterGridBigTxt">
+        <item name="android:textSize">23sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="HomeHeaderDescTxt">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_alignBottom">@id/iconView</item>
+        <item name="android:layout_toRightOf">@id/iconView</item>
+    </style>
+    <style name="HomeHeaderTitleTxt">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_alignLeft">@id/descTxt</item>
+        <item name="android:layout_above">@id/descTxt</item>
+        <item name="android:layout_toRightOf">@id/iconView</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+    <style name="HomeProcessTagTxt">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:background">@drawable/background_home_process_tag_txt</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+    </style>
+    <style name="HomeEditBtn">
+        <item name="android:layout_below">@id/header</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginTop">-25dp</item>
+
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
+
 </resources>
