@@ -68,6 +68,6 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:cardview-v7:24.2.1'
 
-    compile 'com.shawnlin:number-picker:2.3.0'
+    compile 'com.shawnlin:number-picker:2.4.0'
     compile 'com.binaryfork:spanny:1.0.4'
 }

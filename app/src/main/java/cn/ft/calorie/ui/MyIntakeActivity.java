@@ -52,7 +52,7 @@ public class MyIntakeActivity extends ToolbarActivity {
         adapter = new MyIntakeAdapter(
                 this,
                 gridLayoutManager);
-        adapter.setItemClickLietener((position,data,viewType)->{
+        adapter.setOnItemClickLietener((position, data, viewType)->{
             if(viewType==adapter.VIEW_TYPE_ITEM){
                 IntakeRecord r = (IntakeRecord) data;
                 Utils.toast(this,r.getId()+"-"+r.getFood().getName());
@@ -90,7 +90,7 @@ public class MyIntakeActivity extends ToolbarActivity {
                 .observeOn(Schedulers.io())
                 .map(intakeRecords -> {
                     for(IntakeRecord intakeRecord:intakeRecords){
-                        String dataStr = TimeUtils.getFormatDate(intakeRecord.getMeta().getCreatedAt(),"yyyy-MM-dd");
+                        String dataStr = TimeUtils.getFormatDate(intakeRecord.getRecordingTime(),"yyyy-MM-dd");
                         MyIntakeSection targetSection = sectionMap.get(dataStr);
                         List<IntakeRecord> targetList = recordLinkedMap.get(targetSection);
                         if(targetSection == null){

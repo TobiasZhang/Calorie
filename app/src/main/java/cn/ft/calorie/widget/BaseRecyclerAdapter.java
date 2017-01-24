@@ -96,14 +96,6 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
         mDataList.clear();
         notifyItemRangeRemoved(0,count);
     }
-    /**
-     * 替换
-     */
-    public void replaceItems(List<T> datas){
-        mDataList.clear();
-        mDataList.addAll(datas);
-        notifyDataSetChanged();
-    }
 
     /**
      * 点击事件
@@ -111,8 +103,8 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
     public interface OnItemClickListener<T>{
         void setItemClickListener(int position, T data, int viewType);
     }
-    public void setItemClickLietener(OnItemClickListener<T> clickLietener){
-        this.mOnclickListener =clickLietener;
+    public void setOnItemClickLietener(OnItemClickListener<T> onItemClickLietener){
+        this.mOnclickListener =onItemClickLietener;
     }
 
     @Override

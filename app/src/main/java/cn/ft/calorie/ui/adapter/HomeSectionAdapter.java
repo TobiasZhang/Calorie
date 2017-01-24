@@ -27,9 +27,9 @@ import cn.ft.calorie.widget.BaseRecyclerAdapter;
  * Created by TT on 2017/1/21.
  */
 public class HomeSectionAdapter extends BaseRecyclerAdapter<Map<String, Object>, RecyclerView.ViewHolder> {
-    private final int ITEM_HOME_INTAKE = R.layout.recyclerview_item_home_intake;
-    private final int ITEM_HOME_BURN = R.layout.recyclerview_item_home_burn;
-    private final int ITEM_HOME_WEIGHT = R.layout.recyclerview_item_home_weight;
+    public static final int ITEM_HOME_INTAKE = R.layout.recyclerview_item_home_intake;
+    public static final int ITEM_HOME_BURN = R.layout.recyclerview_item_home_burn;
+    public static final int ITEM_HOME_WEIGHT = R.layout.recyclerview_item_home_weight;
 
     public HomeSectionAdapter(Context context) {
         super(context);
@@ -68,8 +68,8 @@ public class HomeSectionAdapter extends BaseRecyclerAdapter<Map<String, Object>,
                     intakeVH.unRecordBlock.setVisibility(View.VISIBLE);
                     intakeVH.processTagTxt.setText("未达成");
                 }else{
-                    intakeVH.recordBlock.setVisibility(View.GONE);
-                    intakeVH.unRecordBlock.setVisibility(View.VISIBLE);
+                    intakeVH.recordBlock.setVisibility(View.VISIBLE);
+                    intakeVH.unRecordBlock.setVisibility(View.GONE);
                     intakeVH.processTagTxt.setText("已达成");
 
                     Spanny intakeCalorieSpanny = new Spanny(intakeCalorie+"", new TextAppearanceSpan(mContext, R.style.HomeFooterGridBigTxt)).append("卡");
@@ -92,8 +92,8 @@ public class HomeSectionAdapter extends BaseRecyclerAdapter<Map<String, Object>,
                     burnVH.processTagTxt.setText("未达成");
                 }else{
                     int remainingCalorie = intakeCalorie2 - burnCalorie;
-                    burnVH.recordBlock.setVisibility(View.GONE);
-                    burnVH.unRecordBlock.setVisibility(View.VISIBLE);
+                    burnVH.recordBlock.setVisibility(View.VISIBLE);
+                    burnVH.unRecordBlock.setVisibility(View.GONE);
                     if(remainingCalorie > 0){
                         burnVH.processTagTxt.setText("进行中");
 
@@ -121,11 +121,11 @@ public class HomeSectionAdapter extends BaseRecyclerAdapter<Map<String, Object>,
                     weightVH.unRecordBlock.setVisibility(View.VISIBLE);
                     weightVH.processTagTxt.setText("未达成");
                 }else{
-                    weightVH.recordBlock.setVisibility(View.GONE);
-                    weightVH.unRecordBlock.setVisibility(View.VISIBLE);
+                    weightVH.recordBlock.setVisibility(View.VISIBLE);
+                    weightVH.unRecordBlock.setVisibility(View.GONE);
                     weightVH.processTagTxt.setText("已达成");
 
-                    weightVH.weightTxt.setText(weight + "kg");
+                    weightVH.weightTxt.setText(weight/10 + "." + weight%10 + "kg");
                 }
                 GradientDrawable gd3 = new GradientDrawable();
                 gd3.setColor(mContext.getResources().getColor(R.color.homeWeightForeground));

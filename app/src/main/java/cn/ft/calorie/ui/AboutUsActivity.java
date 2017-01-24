@@ -1,8 +1,5 @@
 package cn.ft.calorie.ui;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -43,7 +40,7 @@ public class AboutUsActivity extends ToolbarActivity {
     @Override
     protected void bindListeners() {
         disclaimerBtn.setOnClickListener(v -> {
-            View txtView = getLayoutInflater().inflate(R.layout.layout_disclaimer,null);
+            View txtView = getLayoutInflater().inflate(R.layout.alertdialog_disclaimer,null);
             Button okBtn = (Button) txtView.findViewById(R.id.okBtn);
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setView(txtView)

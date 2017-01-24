@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".ui.fragment.AddIntakeChooseFragment"
+    >
+    <Button
+        android:id="@+id/searchBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="搜索"/>
+    <EditText
+        android:id="@+id/searchContentTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入今天吃过的食物"
+        android:background="@drawable/background_number_picker"
+        android:layout_toLeftOf="@id/searchBtn"
+        android:padding="10dp"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchContentTxt"></android.support.v7.widget.RecyclerView>
+    <TextView
+        android:id="@+id/hintView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchContentTxt"
+        android:text="点击搜索栏可以查找到您想记录的食物哟"
+        android:gravity="center"/>
+
+</RelativeLayout>

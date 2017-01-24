@@ -68,6 +68,7 @@ public class MyWeightActivity extends ToolbarActivity {
         SubscriptionUtils.register(this,apiUtils.getApiDataObservable(
                 apiUtils.getApiServiceImpl().getWeigthRecords(options))
                 .subscribe(records->{
+                    System.out.println(records.get(0).getRecordingTime()+"------------------");
                     adapter.addItems(records);
                     swipeRefreshLayout.setRefreshing(false);
                 },e->{

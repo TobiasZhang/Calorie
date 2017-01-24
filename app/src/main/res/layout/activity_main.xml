@@ -9,17 +9,18 @@
     android:id="@+id/drawerLayout"
     android:fitsSystemWindows="true"
     >
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:id="@+id/coordinatorLayout">
         <include android:id="@+id/toolbarBlock" layout="@layout/include_toolbar"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             ></android.support.v7.widget.RecyclerView>
-    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
     <android.support.design.internal.ScrimInsetsFrameLayout
         android:id="@+id/scrimInsetsFrameLayout"
         android:layout_width="290dp"
@@ -30,4 +31,5 @@
         >
         <include layout="@layout/drawer_content"/>
     </android.support.design.internal.ScrimInsetsFrameLayout>
+
 </android.support.v4.widget.DrawerLayout>

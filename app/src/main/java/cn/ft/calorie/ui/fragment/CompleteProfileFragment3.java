@@ -68,7 +68,7 @@ public class CompleteProfileFragment3 extends Fragment {
             int height = heightPicker.getValue();
             int weight = weightPicker.getValue();
             tempUser.setHeight(height);
-            tempUser.setWeight(weight);
+            tempUser.setWeight(weight);// TODO: 2017/1/24 weight int->float
             SubscriptionUtils.register(getActivity(),
                 toolbarActivity.apiUtils
                     .getApiDataObservable(apiUtils.getApiServiceImpl().mergeUserInfo(tempUser))

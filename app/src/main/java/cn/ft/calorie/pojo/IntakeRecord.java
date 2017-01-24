@@ -3,6 +3,7 @@ package cn.ft.calorie.pojo;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import io.realm.RealmObject;
 
@@ -19,6 +20,15 @@ public class IntakeRecord extends RealmObject implements Serializable {
     private String foddUnit;
     private Integer foodWeight;
     private Meta meta;
+    private Date recordingTime;
+
+    public Date getRecordingTime() {
+        return recordingTime;
+    }
+
+    public void setRecordingTime(Date recordingTime) {
+        this.recordingTime = recordingTime;
+    }
 
     public Integer getCalorie() {
         return calorie;

@@ -6,13 +6,12 @@ import java.util.Map;
 
 import cn.ft.calorie.pojo.BurnRecord;
 import cn.ft.calorie.pojo.Feedback;
+import cn.ft.calorie.pojo.Food;
 import cn.ft.calorie.pojo.IntakeRecord;
 import cn.ft.calorie.pojo.UserInfo;
-import cn.ft.calorie.pojo.WeigthRecord;
+import cn.ft.calorie.pojo.WeightRecord;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -73,7 +72,14 @@ public interface ApiService {
      * 体重记录
      */
     @GET(API_PATH + "weightRecord")
-    Observable<ApiResult<List<WeigthRecord>>> getWeigthRecords(@QueryMap Map<String,String> options);
+    Observable<ApiResult<List<WeightRecord>>> getWeigthRecords(@QueryMap Map<String,String> options);
+    @POST(API_PATH + "weightRecord/merge")
+    Observable<ApiResult<WeightRecord>> mergeWeightRecord(@Body WeightRecord weightRecord);
+    /**
+     * 食物查询
+     */
+    @GET(API_PATH + "food")
+    Observable<ApiResult<List<Food>>> getFoods(@Query("foodName")String foodName);
 
     /**
      * 用户反馈

@@ -16,10 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.R;
 import cn.ft.calorie.pojo.BurnRecord;
-import cn.ft.calorie.pojo.IntakeRecord;
 import cn.ft.calorie.pojo.sectionrecyclerview.MyIntakeSection;
 import cn.ft.calorie.ui.adapter.MyBurnAdapter;
-import cn.ft.calorie.ui.adapter.MyIntakeAdapter;
 import cn.ft.calorie.util.SubscriptionUtils;
 import cn.ft.calorie.util.TimeUtils;
 import cn.ft.calorie.util.Utils;
@@ -54,7 +52,7 @@ public class MyBurnActivity extends ToolbarActivity {
         adapter = new MyBurnAdapter(
                 this,
                 gridLayoutManager);
-        adapter.setItemClickLietener((position,data,viewType)->{
+        adapter.setOnItemClickLietener((position, data, viewType)->{
             if(viewType==adapter.VIEW_TYPE_SECTION){
                 adapter.sectionStateChanged((SectionedExpandableGridAdapter.Section) data);
             }

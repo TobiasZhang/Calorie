@@ -2,6 +2,8 @@ package cn.ft.calorie;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -16,9 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,12 +31,16 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.event.UserInfoUpdateEvent;
+import cn.ft.calorie.event.WeightRecordUpdateEvent;
 import cn.ft.calorie.pojo.BurnRecord;
 import cn.ft.calorie.pojo.IntakeRecord;
+import cn.ft.calorie.pojo.WeightRecord;
 import cn.ft.calorie.ui.AboutUsActivity;
+import cn.ft.calorie.ui.AddIntakeActivity;
 import cn.ft.calorie.ui.FeedbackActivity;
 import cn.ft.calorie.ui.LoginActivity;
 import cn.ft.calorie.ui.MyProfileActivity;
+import cn.ft.calorie.ui.MyWeightActivity;
 import cn.ft.calorie.ui.ToolbarActivity;
 import cn.ft.calorie.ui.adapter.HomeSectionAdapter;
 import cn.ft.calorie.util.RxBus;
@@ -71,9 +77,14 @@ public class MainActivity extends ToolbarActivity {
     DrawerLayout drawerLayout;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
 
     private List<Map<String,Object>> dataList = new ArrayList<>();
     HomeSectionAdapter homeSectionAdapter;
+
+    int currWeightInteger;
+    int currWeightDecimal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,7 +154,73 @@ public class MainActivity extends ToolbarActivity {
                     }
 
                 }));
+        SubscriptionUtils.register(this,
+                RxBus.getDefault().toObservable(WeightRecordUpdateEvent.class).subscribe(event->{
+                    dataList.get(2).put("weight",event.getWeightRecord().getWeight());
+                    homeSectionAdapter.updateItems(dataList);
+                }));
+        //点击板块
+        homeSectionAdapter.setOnItemClickLietener((position,  data, viewType)-> {
+            //if(!Utils.isLogin(this))return;
+            switch (viewType){
+                //饮食记录
+                case HomeSectionAdapter.ITEM_HOME_INTAKE:
+                    startActivity(new Intent(this, AddIntakeActivity.class));
+                    break;
+                //体重记录
+                case HomeSectionAdapter.ITEM_HOME_WEIGHT:
+                    if(Integer.parseInt(data.get("weight").toString())>0){
+                        Snackbar
+                                .make(coordinatorLayout,"今日体重已记录",2000)
+                                .setAction("查看",v->{
+                                    startActivity(new Intent(this,MyWeightActivity.class));
+                                })
+                                .show();
+                        return;
+                    }
+                    int currWeight = Utils.loginUser.getWeight();
+                    currWeightInteger = currWeight/10;
+                    currWeightDecimal = currWeight%10;
+                    View weightPickerView = getLayoutInflater().inflate(R.layout.alertdiaolg_record_weight,null);
+                    TextView weightNumTxt = (TextView) weightPickerView.findViewById(R.id.weightNumTxt);
+                    NumberPicker weightIntegerPicker = (NumberPicker) weightPickerView.findViewById(R.id.weightIntegerPicker);
+                    NumberPicker weightDecimalPicker = (NumberPicker) weightPickerView.findViewById(R.id.weightDecimalPicker);
+                    weightIntegerPicker.setValue(currWeightInteger);
+                    weightDecimalPicker.setValue(currWeightDecimal);
+                    weightNumTxt.setText(currWeightInteger+"."+currWeightDecimal+"/kg");
+                    weightIntegerPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
+                        currWeightInteger = newVal;
+                        weightNumTxt.setText(currWeightInteger+"."+currWeightDecimal+"/kg");
+                    });
+                    weightDecimalPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
+                        currWeightDecimal = newVal;
+                        weightNumTxt.setText(currWeightInteger+"."+currWeightDecimal+"/kg");
+                    });
+                    new AlertDialog.Builder(this)
+                            .setTitle("体重记录")
+                            .setView(weightPickerView)
+                            .setNegativeButton("取消",null)
+                            .setPositiveButton("确认",(dialog,i)->{
+                                WeightRecord newWeightRecord = new WeightRecord();
+                                newWeightRecord.setUserInfo(Utils.loginUser);
+                                newWeightRecord.setRecordingTime(new Date());
+                                newWeightRecord.setWeight(currWeightInteger*10+currWeightDecimal);
+                                SubscriptionUtils.register(this,
+                                        apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().mergeWeightRecord(newWeightRecord))
+                                                .subscribe(weightRecord ->{
+                                                    System.out.println(weightRecord);
+                                                    RxBus.getDefault().post(new WeightRecordUpdateEvent(weightRecord));
+                                                    Utils.toast(this,"今日体重已记录");
+                                                },e->{
+                                                    e.printStackTrace();
+                                                    Utils.toast(this,e.getMessage());
+                                                }));
+                            })
+                            .show();
 
+                    break;
+            }
+        });
     }
 
     @Override
@@ -181,7 +258,7 @@ public class MainActivity extends ToolbarActivity {
         dataList.add(weightMap);
 
         if(Utils.loginUser==null){
-            homeSectionAdapter.replaceItems(dataList);
+            homeSectionAdapter.updateItems(dataList);
             return;
         }
         String userId = Utils.loginUser.getId();
@@ -234,7 +311,7 @@ public class MainActivity extends ToolbarActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 aVoid->{
-                                    homeSectionAdapter.replaceItems(dataList);
+                                    homeSectionAdapter.updateItems(dataList);
                                 },
                                 e->{
                                     e.printStackTrace();
@@ -242,8 +319,5 @@ public class MainActivity extends ToolbarActivity {
                                 }
                         )
                         );
-    }
-    void addDataList(){
-
     }
 }
