@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
+              tools:context=".ui.CompleteIntakeActivity"
+              android:orientation="vertical"
+    >
+    <include android:id="@+id/toolbarBlock" layout="@layout/include_toolbar"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="此次共摄入"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:id="@+id/calorieCountTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3000卡路里"
+            android:textSize="30sp"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/title"
+            />
+        <Button
+            android:id="@+id/goHomeBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="返回首页"
+            android:layout_alignParentBottom="true"/>
+        <Button
+            android:id="@+id/toBurnBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="立即锻炼"
+            android:layout_above="@id/goHomeBtn"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/calorieCountTxt"
+            android:layout_above="@id/toBurnBtn"
+            />
+    </RelativeLayout>
+</LinearLayout>

@@ -41,6 +41,13 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
         return mDataList.size();
     }
 
+
+    /**
+     * 获得数据列表
+     */
+    public List<T> getDataList(){
+        return this.mDataList;
+    }
     /** 更新数据，替换原有数据 */
     public void updateItems(List<T> items) {
         mDataList = items;

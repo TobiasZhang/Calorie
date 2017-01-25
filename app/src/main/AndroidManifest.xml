@@ -38,6 +38,10 @@
         <activity android:name=".ui.AboutUsActivity"/>
         <activity android:name=".ui.AddIntakeActivity">
         </activity>
+        <activity android:name=".ui.CompleteIntakeActivity">
+        </activity>
+        <activity android:name=".ui.FoodCustomActivity">
+        </activity>
     </application>
 
 </manifest>

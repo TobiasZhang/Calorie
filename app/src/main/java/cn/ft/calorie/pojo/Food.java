@@ -17,6 +17,15 @@ public class Food extends RealmObject implements Serializable {
     private String name;
     private Integer calorie;
     private RealmList<UnitConvert> unitConvertList;
+    private UserInfo customBy;
+
+    public UserInfo getCustomBy() {
+        return customBy;
+    }
+
+    public void setCustomBy(UserInfo customBy) {
+        this.customBy = customBy;
+    }
 
     public Integer getCalorie() {
         return calorie;

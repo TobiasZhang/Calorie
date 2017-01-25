@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.shawnlin.numberpicker.NumberPicker;
@@ -31,7 +30,7 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.event.UserInfoUpdateEvent;
-import cn.ft.calorie.event.WeightRecordUpdateEvent;
+import cn.ft.calorie.event.HomeRecordUpdateEvent;
 import cn.ft.calorie.pojo.BurnRecord;
 import cn.ft.calorie.pojo.IntakeRecord;
 import cn.ft.calorie.pojo.WeightRecord;
@@ -154,10 +153,10 @@ public class MainActivity extends ToolbarActivity {
                     }
 
                 }));
+        //体重记录添加事件
         SubscriptionUtils.register(this,
-                RxBus.getDefault().toObservable(WeightRecordUpdateEvent.class).subscribe(event->{
-                    dataList.get(2).put("weight",event.getWeightRecord().getWeight());
-                    homeSectionAdapter.updateItems(dataList);
+                RxBus.getDefault().toObservable(HomeRecordUpdateEvent.class).subscribe(event->{
+                    httpRequest();
                 }));
         //点击板块
         homeSectionAdapter.setOnItemClickLietener((position,  data, viewType)-> {
@@ -209,7 +208,7 @@ public class MainActivity extends ToolbarActivity {
                                         apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().mergeWeightRecord(newWeightRecord))
                                                 .subscribe(weightRecord ->{
                                                     System.out.println(weightRecord);
-                                                    RxBus.getDefault().post(new WeightRecordUpdateEvent(weightRecord));
+                                                    RxBus.getDefault().post(new HomeRecordUpdateEvent());
                                                     Utils.toast(this,"今日体重已记录");
                                                 },e->{
                                                     e.printStackTrace();

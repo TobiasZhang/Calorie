@@ -61,8 +61,11 @@ public interface ApiService {
     /**
      * 摄入记录
      */
-    @GET(API_PATH + "intakeRecord")
+    @GET(API_PATH + "intakeRecord")//查询摄入记录
     Observable<ApiResult<List<IntakeRecord>>> getIntakeRecords(@QueryMap Map<String,String> options);
+    @POST(API_PATH + "intakeRecord")//增加摄入记录
+    Observable<ApiResult<List<IntakeRecord>>> mergeIntakeRecords(@Body List<IntakeRecord> intakeRecordList);
+
     /**
      * 锻炼记录
      */
@@ -71,15 +74,17 @@ public interface ApiService {
     /**
      * 体重记录
      */
-    @GET(API_PATH + "weightRecord")
+    @GET(API_PATH + "weightRecord")//查询体重记录
     Observable<ApiResult<List<WeightRecord>>> getWeigthRecords(@QueryMap Map<String,String> options);
-    @POST(API_PATH + "weightRecord/merge")
+    @POST(API_PATH + "weightRecord/merge")//增加体重记录
     Observable<ApiResult<WeightRecord>> mergeWeightRecord(@Body WeightRecord weightRecord);
     /**
      * 食物查询
      */
     @GET(API_PATH + "food")
-    Observable<ApiResult<List<Food>>> getFoods(@Query("foodName")String foodName);
+    Observable<ApiResult<List<Food>>> getFoods(@Query("foodName")String foodName,@Query("uid")String uid);
+    @POST(API_PATH + "food")//添加自定义食物
+    Observable<ApiResult<Food>> addFood(@Body Food food);
 
     /**
      * 用户反馈

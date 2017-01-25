@@ -32,5 +32,25 @@
         android:layout_below="@+id/searchContentTxt"
         android:text="点击搜索栏可以查找到您想记录的食物哟"
         android:gravity="center"/>
+    <FrameLayout
+        android:id="@+id/customFoodView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/searchContentTxt"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="（╯#-_-)╯╧═╧ 没有找到您吃到的食物？"
+            android:layout_gravity="center_vertical|left"
+            />
+        <Button
+            android:id="@+id/customFoodBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义"
+            android:layout_gravity="center_vertical|right"
+            />
+    </FrameLayout>
 
 </RelativeLayout>

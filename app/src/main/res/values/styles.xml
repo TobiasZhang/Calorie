@@ -24,6 +24,16 @@
         <item name="android:fragmentCloseEnterAnimation">@anim/activity_slide_in_from_left</item>
         <item name="android:fragmentCloseExitAnimation">@anim/activity_slide_out_to_right</item>
     </style>
+    <!--dialog anim-->
+    <style name="DialogAnim" parent="android:Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/dialog_slide_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/dialog_slide_out_to_bottom</item>
+    </style>
+    <style name="FullScreenDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--<item name="android:windowIsFloating">true</item>-->
+    </style>
 
     <!--toolbar-->
     <style name="MyToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">

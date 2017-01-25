@@ -16,8 +16,8 @@ public class IntakeRecord extends RealmObject implements Serializable {
     private UserInfo userInfo;
     private Integer calorie;
     private Food food;
-    private Integer foodCount;
-    private String foddUnit;
+    private Integer foodUnitCount;
+    private String foodUnit;
     private Integer foodWeight;
     private Meta meta;
     private Date recordingTime;
@@ -38,12 +38,12 @@ public class IntakeRecord extends RealmObject implements Serializable {
         this.calorie = calorie;
     }
 
-    public String getFoddUnit() {
-        return foddUnit;
+    public String getFoodUnit() {
+        return foodUnit;
     }
 
-    public void setFoddUnit(String foddUnit) {
-        this.foddUnit = foddUnit;
+    public void setFoodUnit(String foodUnit) {
+        this.foodUnit = foodUnit;
     }
 
     public Food getFood() {
@@ -54,12 +54,12 @@ public class IntakeRecord extends RealmObject implements Serializable {
         this.food = food;
     }
 
-    public Integer getFoodCount() {
-        return foodCount;
+    public Integer getFoodUnitCount() {
+        return foodUnitCount;
     }
 
-    public void setFoodCount(Integer foodCount) {
-        this.foodCount = foodCount;
+    public void setFoodUnitCount(Integer foodUnitCount) {
+        this.foodUnitCount = foodUnitCount;
     }
 
     public Integer getFoodWeight() {
