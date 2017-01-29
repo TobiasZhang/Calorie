@@ -73,7 +73,7 @@ public class MyIntakeAdapter extends SectionedExpandableGridAdapter<MyIntakeSect
         //for section
         @BindView(R.id.dateTxt)
         TextView dateTxt;
-        @BindView(R.id.totalCalorieTxt)
+        @BindView(R.id.intakeCalorieTxt)
         TextView totalCalorieTxt;
 
         public MyVH4Section(View view) {

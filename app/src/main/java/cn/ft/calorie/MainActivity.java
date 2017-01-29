@@ -35,6 +35,7 @@ import cn.ft.calorie.pojo.BurnRecord;
 import cn.ft.calorie.pojo.IntakeRecord;
 import cn.ft.calorie.pojo.WeightRecord;
 import cn.ft.calorie.ui.AboutUsActivity;
+import cn.ft.calorie.ui.AddBurnActivity;
 import cn.ft.calorie.ui.AddIntakeActivity;
 import cn.ft.calorie.ui.FeedbackActivity;
 import cn.ft.calorie.ui.LoginActivity;
@@ -84,6 +85,9 @@ public class MainActivity extends ToolbarActivity {
 
     int currWeightInteger;
     int currWeightDecimal;
+
+    int currBurn;
+    int currIntake;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,11 +166,18 @@ public class MainActivity extends ToolbarActivity {
         homeSectionAdapter.setOnItemClickLietener((position,  data, viewType)-> {
             //if(!Utils.isLogin(this))return;
             switch (viewType){
-                //饮食记录
+                //添加锻炼记录
+                case HomeSectionAdapter.ITEM_HOME_BURN:
+                    Intent addBurnIntent = new Intent(this, AddBurnActivity.class);
+                    addBurnIntent.putExtra("currBurn",this.currBurn);
+                    addBurnIntent.putExtra("currIntake",this.currIntake);
+                    startActivity(addBurnIntent);
+                    break;
+                //添加饮食记录
                 case HomeSectionAdapter.ITEM_HOME_INTAKE:
                     startActivity(new Intent(this, AddIntakeActivity.class));
                     break;
-                //体重记录
+                //添加体重记录
                 case HomeSectionAdapter.ITEM_HOME_WEIGHT:
                     if(Integer.parseInt(data.get("weight").toString())>0){
                         Snackbar
@@ -284,6 +295,8 @@ public class MainActivity extends ToolbarActivity {
                                 }
                                 currIntake += intakeRecord.getCalorie();
                             }
+                            //摄入卡路里存至成员变量
+                            this.currIntake = currIntake;
                             intakeMap.put("foodCategoryCount",currFoodCategoryCount);//食物种类
                             intakeMap.put("intakeCalorie",currIntake);//饮食记录摄入卡路里
                             burnMap.put("intakeCalorie",currIntake);//锻炼记录摄入卡路里
@@ -295,8 +308,11 @@ public class MainActivity extends ToolbarActivity {
                             for(BurnRecord burnRecord:burnRecords){
                                 currBurn += burnRecord.getCalorie();
                             }
+                            //今天消耗卡路里存至成员变量
+                            this.currBurn = currBurn;
                             //今天消耗
                             burnMap.put("burnCalorie",currBurn);
+
                             return apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().getWeigthRecords(options));
                         })
                         .map(weigthRecords -> {

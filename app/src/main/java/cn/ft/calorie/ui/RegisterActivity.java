@@ -90,7 +90,7 @@ public class RegisterActivity extends ToolbarActivity {
                         .subscribe(user -> {
                             Utils.toast(this,"注册成功");
                             Utils.doOnLogin(user);
-                            startActivity(new Intent(this,CompleteProfileActivity.class));
+                            startActivity(new Intent(this,ProfileCompleteActivity.class));
                             finish();
                         },e->{
                             Utils.toast(this,e.getMessage());

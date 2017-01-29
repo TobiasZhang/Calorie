@@ -3,7 +3,6 @@ package cn.ft.calorie.ui.adapter;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,7 +11,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.R;
 import cn.ft.calorie.pojo.BurnRecord;
-import cn.ft.calorie.pojo.IntakeRecord;
 import cn.ft.calorie.pojo.sectionrecyclerview.MyIntakeSection;
 import cn.ft.calorie.widget.SectionedExpandableGridAdapter;
 
@@ -72,7 +70,7 @@ public class MyBurnAdapter extends SectionedExpandableGridAdapter<MyIntakeSectio
         //for section
         @BindView(R.id.dateTxt)
         TextView dateTxt;
-        @BindView(R.id.totalCalorieTxt)
+        @BindView(R.id.intakeCalorieTxt)
         TextView totalCalorieTxt;
 
         public MyVH4Section(View view) {

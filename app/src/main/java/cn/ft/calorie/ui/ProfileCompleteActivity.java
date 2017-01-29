@@ -9,7 +9,7 @@ import cn.ft.calorie.R;
 import cn.ft.calorie.ui.fragment.CompleteProfileFragment1;
 import cn.ft.calorie.util.FragmentUtils;
 
-public class CompleteProfileActivity extends ToolbarActivity {
+public class ProfileCompleteActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,7 +17,7 @@ public class CompleteProfileActivity extends ToolbarActivity {
     }
     @Override
     protected void setLayout() {
-        setContentView(R.layout.activity_complete_profile);
+        setContentView(R.layout.activity_profile_complete);
     }
     @Override
     protected void bindViews() {

@@ -26,4 +26,31 @@ public class TimeUtils {
     public static String getTodayGMTString(){
         return getTodayGMTString(0);
     }
+
+
+    //秒转换时间字符串00：00：00
+    public static String formatSeconds(int var) {
+        String secondStr;
+        String minuteStr;
+        String hourStr;
+        int second = 0;
+        int minute = 0;
+        int hour = 0;
+        second = var % 60;
+        if (var / 60 > 0) {
+            minute = var / 60 % 60;
+            hour = var / 60 / 60;
+        }
+        secondStr = second + "";
+        minuteStr = minute + "";
+        hourStr = hour + "";
+        if (second < 10)
+            secondStr = "0" + secondStr;
+        if (minute < 10)
+            minuteStr = "0" + minuteStr;
+        if (hour < 10)
+            hourStr = "0" + hourStr;
+
+        return hourStr + ":" + minuteStr + ":" + secondStr;
+    }
 }

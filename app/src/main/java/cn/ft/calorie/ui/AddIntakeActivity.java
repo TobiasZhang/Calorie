@@ -1,17 +1,13 @@
 package cn.ft.calorie.ui;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.binaryfork.spanny.Spanny;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -101,7 +97,7 @@ public class AddIntakeActivity extends ToolbarActivity {
                                     apiUtils.getApiServiceImpl()
                                             .mergeIntakeRecords(chosenList))
                             .subscribe(records->{
-                                Intent intent = new Intent(this,CompleteIntakeActivity.class);
+                                Intent intent = new Intent(this,IntakeCompleteActivity.class);
                                 intent.putExtra("intakeRecords", (Serializable) records);
                                 //更新主页数据
                                 RxBus.getDefault().post(new HomeRecordUpdateEvent());

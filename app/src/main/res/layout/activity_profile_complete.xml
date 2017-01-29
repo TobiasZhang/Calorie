@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.ft.calorie.ui.CompleteProfileActivity"
+    tools:context=".ui.ProfileCompleteActivity"
     android:orientation="vertical">
     <include android:id="@+id/toolbarBlock" layout="@layout/include_toolbar"/>
     <FrameLayout

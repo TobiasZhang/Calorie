@@ -17,7 +17,7 @@ import cn.ft.calorie.pojo.IntakeRecord;
 import cn.ft.calorie.ui.adapter.IntakeCompleteAdapter;
 import cn.ft.calorie.util.Utils;
 
-public class CompleteIntakeActivity extends ToolbarActivity {
+public class IntakeCompleteActivity extends ToolbarActivity {
     @BindView(R.id.calorieCountTxt)
     TextView calorieCountTxt;
     @BindView(R.id.goHomeBtn)
@@ -37,7 +37,7 @@ public class CompleteIntakeActivity extends ToolbarActivity {
 
     @Override
     protected void setLayout() {
-        setContentView(R.layout.activity_complete_intake);
+        setContentView(R.layout.activity_intake_complete);
         intakeRecordList = (List<IntakeRecord>) getIntent().getSerializableExtra("intakeRecords");
 
     }
