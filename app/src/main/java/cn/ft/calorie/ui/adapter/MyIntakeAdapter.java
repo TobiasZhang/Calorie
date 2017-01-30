@@ -50,13 +50,13 @@ public class MyIntakeAdapter extends SectionedExpandableGridAdapter<MyIntakeSect
                 final IntakeRecord item = (IntakeRecord) data;
                 holder4Item.foodNameTxt.setText(item.getFood().getName());
                 holder4Item.foodWeightTxt.setText(item.getFoodWeight() + "g");
-                holder4Item.foodCalorieTxt.setText(item.getCalorie()+"卡");
+                holder4Item.foodCalorieTxt.setText(item.getCalorie()+mContext.getString(R.string.calorieUnit));
                 break;
             case VIEW_TYPE_SECTION:
                 MyVH4Section holder4Section = (MyVH4Section) holder;
                 final MyIntakeSection section = (MyIntakeSection) data;
                 holder4Section.dateTxt.setText(section.getDate());
-                holder4Section.totalCalorieTxt.setText(section.getCalorie()+"卡");
+                holder4Section.totalCalorieTxt.setText(section.getCalorie()+mContext.getString(R.string.calorieUnit));
                 break;
         }
     }

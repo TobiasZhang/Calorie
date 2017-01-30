@@ -10,6 +10,7 @@ import butterknife.ButterKnife;
 import cn.ft.calorie.R;
 import cn.ft.calorie.event.IntakeChosenAddEvent;
 import cn.ft.calorie.pojo.Food;
+import cn.ft.calorie.pojo.FoodCustom;
 import cn.ft.calorie.pojo.IntakeRecord;
 import cn.ft.calorie.util.RxBus;
 import cn.ft.calorie.util.SubscriptionUtils;
@@ -18,8 +19,8 @@ import cn.ft.calorie.util.Utils;
 public class FoodCustomActivity extends ToolbarActivity {
     @BindView(R.id.foodNameTxt)
     EditText foodNameTxt;
-    @BindView(R.id.foodWeightTxt)
-    EditText foodWeightTxt;
+    /*@BindView(R.id.foodWeightTxt)
+    EditText foodWeightTxt;*/
     @BindView(R.id.foodCalorieTxt)
     EditText foodCalorieTxt;
     @BindView(R.id.okBtn)
@@ -53,31 +54,32 @@ public class FoodCustomActivity extends ToolbarActivity {
                 Utils.toast(this,"食物名称不能为空哟");
                 return;
             }
-            String foodWeight = foodWeightTxt.getText().toString();
+            /*String foodWeight = foodWeightTxt.getText().toString();
             if(TextUtils.isEmpty(foodWeight)||"0".equals(foodWeight)){
                 Utils.toast(this,"请填写正确的食物重量哟");
                 return;
-            }
+            }*/
             String foodCalorie = foodCalorieTxt.getText().toString();
             if(TextUtils.isEmpty(foodCalorie)||"0".equals(foodCalorie)){
                 Utils.toast(this,"请填写正确的每100g所含热量哟");
                 return;
             }
-            Food customFood = new Food();
+            FoodCustom customFood = new FoodCustom();
             customFood.setName(foodName);
             customFood.setCalorie(Integer.valueOf(foodCalorie));
             customFood.setCustomBy(Utils.loginUser);
             SubscriptionUtils.register(this,
-                    apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().addFood(customFood))
-                            .subscribe(food->{
-                                IntakeRecord intakeRecord = new IntakeRecord();
-                                intakeRecord.setFood(food);
+                    apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().addFoodCustom(customFood))
+                            .subscribe(newCustomFood->{
+
+                               /* IntakeRecord intakeRecord = new IntakeRecord();
                                 intakeRecord.setFoodWeight(Integer.valueOf(foodWeight));
                                 intakeRecord.setFoodUnitCount(Integer.valueOf(foodWeight));
-                                intakeRecord.setFoodUnit("g");
+                                intakeRecord.setFoodUnit("g");*/
                                 //将选择发送
-                                RxBus.getDefault().post(new IntakeChosenAddEvent(intakeRecord));
-                                Utils.toast(this, "已添加至选择列表");
+                                //RxBus.getDefault().post(new IntakeChosenAddEvent(intakeRecord));
+//                                Utils.toast(this, "已添加至选择列表");
+                                Utils.toast(this, "已提交至后台");
                                 finish();
                             },e->{
                                 e.printStackTrace();

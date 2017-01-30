@@ -40,6 +40,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ft.calorie.R;
+import cn.ft.calorie.event.BurnCompleteEvent;
+import cn.ft.calorie.util.RxBus;
+import cn.ft.calorie.util.SubscriptionUtils;
 import cn.ft.calorie.util.TimeUtils;
 import cn.ft.calorie.util.Utils;
 
@@ -279,6 +282,11 @@ public class AddBurnActivity extends ToolbarActivity {
             startActivity(completeIntent);
 //            Utils.toast(this,"结束");
         });
+        //锻炼完成
+        SubscriptionUtils.register(this, RxBus.getDefault().toObservable(BurnCompleteEvent.class)
+                .subscribe(event->{
+                    finish();
+                }));
     }
 
     //处理定位坐标点
@@ -297,8 +305,7 @@ public class AddBurnActivity extends ToolbarActivity {
             distanceTxt.setText((int) distance + "");
 
             //计算跑步热量（kcal）＝体重（kg）×距离（公里）×1.036
-            //tempBurn cal
-            newBurn = (int)(Utils.loginUser.getWeight()/10 * distance * 1.036);
+            newBurn = (int)(Utils.loginUser.getWeight()/10 * distance/1000 * 1.036);
             int tempBurn = currBurn + newBurn;// TODO: 2017/1/29  体重kg
             burnCalorieTxt.setText(tempBurn + "");
             if (!isFinish && tempBurn >= currIntake) {//当锻炼到达目标

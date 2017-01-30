@@ -29,7 +29,7 @@ public class IntakeCompleteAdapter extends BaseRecyclerAdapter<IntakeRecord, Int
     @Override
     protected void onBindVH(MyVH4Item holder4Item, int position, int viewType, IntakeRecord item) {
         holder4Item.foodNameAndWeightTxt.setText(item.getFood().getName()+"|"+item.getFoodWeight()+"g");
-        holder4Item.calorieTxt.setText(item.getCalorie() + "卡");
+        holder4Item.calorieTxt.setText(item.getCalorie() + mContext.getString(R.string.calorieUnit));
     }
 
     class MyVH4Item extends RecyclerView.ViewHolder {

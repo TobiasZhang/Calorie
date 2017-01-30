@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import cn.ft.calorie.R;
 import cn.ft.calorie.pojo.BurnRecord;
 import cn.ft.calorie.pojo.sectionrecyclerview.MyIntakeSection;
+import cn.ft.calorie.util.TimeUtils;
 import cn.ft.calorie.widget.SectionedExpandableGridAdapter;
 
 /**
@@ -55,17 +56,16 @@ public class MyBurnAdapter extends SectionedExpandableGridAdapter<MyIntakeSectio
                 MyVH4Item holder4Item = (MyVH4Item) holder;
                 final BurnRecord item = (BurnRecord) data;
                 holder4Item.distanceTxt.setText("跑步" + item.getDistance() + "m");
-                holder4Item.durationTxt.setText("用时 " + item.getDuration());
+                holder4Item.durationTxt.setText("用时 " + TimeUtils.formatSeconds(item.getDuration()));
                 holder4Item.speedTxt.setText("速度" + item.getSpeed() + "m/s");
-                holder4Item.calorieTxt.setText(item.getCalorie() + "卡");
-//                holder4Item.mapImage.setImageURI();
-                // TODO: 2017/1/30  
+                holder4Item.calorieTxt.setText(item.getCalorie() + mContext.getString(R.string.calorieUnit));
+                holder4Item.mapImage.setImageURI(item.getMapImage());
                 break;
             case VIEW_TYPE_SECTION:
                 MyVH4Section holder4Section = (MyVH4Section) holder;
                 final MyIntakeSection section = (MyIntakeSection) data;
                 holder4Section.dateTxt.setText(section.getDate());
-                holder4Section.totalCalorieTxt.setText(section.getCalorie() + "卡");
+                holder4Section.totalCalorieTxt.setText(section.getCalorie() + mContext.getString(R.string.calorieUnit));
                 break;
         }
     }

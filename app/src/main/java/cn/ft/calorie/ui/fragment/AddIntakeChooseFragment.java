@@ -81,7 +81,7 @@ public class AddIntakeChooseFragment extends Fragment {
             searchContent = searchContentTxt.getText().toString().trim();
             if (TextUtils.isEmpty(searchContent)) return;
             SubscriptionUtils.register(getActivity(),
-                    apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().getFoods(searchContent,Utils.loginUser.getId()))
+                    apiUtils.getApiDataObservable(apiUtils.getApiServiceImpl().getFoods(searchContent))
                             .subscribe(foods -> {
                                 adapter.updateItems(foods);
                                 if (adapter.getItemCount() > 0) {

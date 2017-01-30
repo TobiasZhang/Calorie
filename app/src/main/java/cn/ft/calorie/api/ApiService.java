@@ -7,6 +7,7 @@ import java.util.Map;
 import cn.ft.calorie.pojo.BurnRecord;
 import cn.ft.calorie.pojo.Feedback;
 import cn.ft.calorie.pojo.Food;
+import cn.ft.calorie.pojo.FoodCustom;
 import cn.ft.calorie.pojo.IntakeRecord;
 import cn.ft.calorie.pojo.UserInfo;
 import cn.ft.calorie.pojo.WeightRecord;
@@ -84,10 +85,13 @@ public interface ApiService {
      * 食物查询
      */
     @GET(API_PATH + "food")
-    Observable<ApiResult<List<Food>>> getFoods(@Query("foodName")String foodName,@Query("uid")String uid);
-    @POST(API_PATH + "food")//添加自定义食物
-    Observable<ApiResult<Food>> addFood(@Body Food food);
+    Observable<ApiResult<List<Food>>> getFoods(@Query("foodName")String foodName);
 
+    /**
+     * 添加自定义食物
+     */
+    @POST(ADMIN_PATH + "foodCustom")
+    Observable<ApiResult<FoodCustom>> addFoodCustom(@Body FoodCustom foodCustom);
     /**
      * 用户反馈
      */

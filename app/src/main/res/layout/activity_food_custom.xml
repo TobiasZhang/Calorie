@@ -47,7 +47,7 @@
         android:layout_height="1dp"
         android:background="@android:color/black"
         android:layout_below="@id/foodNameView"/>
-    <RelativeLayout
+    <!--<RelativeLayout
         android:id="@+id/foodWeightView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,18 +72,18 @@
             android:layout_toLeftOf="@id/unitG"
             android:inputType="number"
             />
-    </RelativeLayout>
-    <View
+    </RelativeLayout>-->
+    <!--<View
         android:id="@+id/divider3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/black"
-        android:layout_below="@id/foodWeightView"/>
+        android:layout_below="@id/foodWeightView"/>-->
     <RelativeLayout
         android:id="@+id/foodCalorieView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/divider3">
+        android:layout_below="@id/divider2">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

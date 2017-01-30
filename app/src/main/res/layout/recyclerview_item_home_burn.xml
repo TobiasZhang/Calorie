@@ -126,7 +126,7 @@
                        android:id="@+id/burnCalorieTxt"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="40卡"
+                       android:text="40千卡"
                        android:textColor="@color/homeBurnForeground"
                        style="@style/HomeFooterGridTxt"
                        />
@@ -151,14 +151,14 @@
                        android:id="@+id/remainingCalorieTxt"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="160卡"
+                       android:text="160千卡"
                        android:textColor="@color/homeBurnForeground"
                        style="@style/HomeFooterGridTxt"
                        />
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="消耗热量"
+                       android:text="剩余热量"
                        style="@style/HomeFooterGridTxt"
                        />
                </LinearLayout>

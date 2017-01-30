@@ -3,7 +3,6 @@ package cn.ft.calorie.pojo;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -11,13 +10,21 @@ import io.realm.RealmObject;
 /**
  * Created by TT on 2017/1/21.
  */
-public class Food extends RealmObject implements Serializable {
+public class FoodCustom extends RealmObject implements Serializable {
     @SerializedName("_id")
     private String id;
     private String name;
     private Integer calorie;
     private RealmList<UnitConvert> unitConvertList;
+    private UserInfo customBy;
 
+    public UserInfo getCustomBy() {
+        return customBy;
+    }
+
+    public void setCustomBy(UserInfo customBy) {
+        this.customBy = customBy;
+    }
 
     public Integer getCalorie() {
         return calorie;

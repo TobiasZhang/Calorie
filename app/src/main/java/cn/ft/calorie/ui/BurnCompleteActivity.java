@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 import cn.ft.calorie.R;
 import cn.ft.calorie.api.AmapStaticMapUtils;
 import cn.ft.calorie.api.ApiUtils;
+import cn.ft.calorie.event.BurnCompleteEvent;
 import cn.ft.calorie.event.HomeRecordUpdateEvent;
 import cn.ft.calorie.pojo.BurnRecord;
 import cn.ft.calorie.pojo.sectionrecyclerview.MyLatLng;
@@ -137,7 +138,6 @@ public class BurnCompleteActivity extends AppCompatActivity {
             public void onCameraChangeFinish(CameraPosition cameraPosition) {
                 if(zoom==0){
                     zoom = (int)cameraPosition.zoom;
-                    System.out.println(AmapStaticMapUtils.getStaticMapUrl(center,zoom,locationList));
                 }
             }
         });
@@ -187,6 +187,10 @@ public class BurnCompleteActivity extends AppCompatActivity {
         });
         //完成
         okBtn.setOnClickListener(v->{
+            if(zoom==0){
+                Utils.toast(this,"正在生成地图信息");
+                return;
+            }
             BurnRecord b = new BurnRecord();
             b.setUserInfo(Utils.loginUser);
             b.setCalorie(newBurn);
@@ -204,6 +208,7 @@ public class BurnCompleteActivity extends AppCompatActivity {
                         // TODO: 2017/1/30
                         System.out.println(burnRecord.getMapImage()+"----");
                         RxBus.getDefault().post(new HomeRecordUpdateEvent());
+                        RxBus.getDefault().post(new BurnCompleteEvent());
                         finish();
                         Utils.toast(this,"保存成功");
                     },e->{

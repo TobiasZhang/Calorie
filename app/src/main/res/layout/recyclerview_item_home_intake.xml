@@ -113,7 +113,7 @@
                    android:id="@+id/intakeCalorieTxt"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:text="200卡"
+                   android:text="200千卡"
                    android:textColor="@color/homeIntakeForeground"
                    style="@style/HomeFooterGridTxt"
                    />

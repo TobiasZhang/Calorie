@@ -72,7 +72,7 @@ public class HomeSectionAdapter extends BaseRecyclerAdapter<Map<String, Object>,
                     intakeVH.unRecordBlock.setVisibility(View.GONE);
                     intakeVH.processTagTxt.setText("已达成");
 
-                    Spanny intakeCalorieSpanny = new Spanny(intakeCalorie+"", new TextAppearanceSpan(mContext, R.style.HomeFooterGridBigTxt)).append("卡");
+                    Spanny intakeCalorieSpanny = new Spanny(intakeCalorie+"", new TextAppearanceSpan(mContext, R.style.HomeFooterGridBigTxt)).append(mContext.getString(R.string.calorieUnit));
                     intakeVH.intakeCalorieTxt.setText(intakeCalorieSpanny);
                     Spanny intakefoodCategoryCountSpanny = new Spanny(data.get("foodCategoryCount").toString(), new TextAppearanceSpan(mContext, R.style.HomeFooterGridBigTxt)).append("种");
                     intakeVH.foodCategoryCountTxt.setText(intakefoodCategoryCountSpanny);
@@ -102,9 +102,9 @@ public class HomeSectionAdapter extends BaseRecyclerAdapter<Map<String, Object>,
                     burnVH.progressBar.setProgress(process);
                     burnVH.progressNumTxt.setText(burnVH.progressBar.getProgress()+"%");
 
-                    Spanny burnCalorieSpanny = new Spanny(burnCalorie+"", new TextAppearanceSpan(mContext, R.style.HomeFooterGridBigTxt)).append("卡");
+                    Spanny burnCalorieSpanny = new Spanny(burnCalorie+"", new TextAppearanceSpan(mContext, R.style.HomeFooterGridBigTxt)).append(mContext.getString(R.string.calorieUnit));
                     burnVH.burnCalorieTxt.setText(burnCalorieSpanny);
-                    Spanny remainingCalorieSpanny =new Spanny(remainingCalorie+"" , new TextAppearanceSpan(mContext, R.style.HomeFooterGridBigTxt)).append("卡");
+                    Spanny remainingCalorieSpanny =new Spanny(remainingCalorie+"" , new TextAppearanceSpan(mContext, R.style.HomeFooterGridBigTxt)).append(mContext.getString(R.string.calorieUnit));
                     burnVH.remainingCalorieTxt.setText(remainingCalorieSpanny);
 
                 }
