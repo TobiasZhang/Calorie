@@ -11,13 +11,16 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +34,7 @@ import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,11 +63,14 @@ public class AddBurnActivity extends ToolbarActivity {
     TextView durationTxt;
     @BindView(R.id.speedTxt)
     TextView speedTxt;
+    @BindView(R.id.countDownTimerTxt)
+    TextView countDownTimerTxt;
 
     int currBurn;
     int currIntake;
     int newBurn;
     boolean isFinish = false;
+    boolean isStarting = false;
 
     //坐标点集合
     List<LatLng> locationList = new ArrayList<>();
@@ -73,6 +80,10 @@ public class AddBurnActivity extends ToolbarActivity {
     int duration;
     //平均速度m/s
     float speed;
+    //开始时间
+    Date startTime;
+    //终止时间
+    Date terminalTime;
 
     Handler timerHandler = new Handler() {
         @Override
@@ -85,6 +96,7 @@ public class AddBurnActivity extends ToolbarActivity {
             }
         }
     };
+    CountDownTimer countDownTimer;
     AMapLocationClient mLocationClient;
 
     Ringtone finishRingtone;
@@ -189,20 +201,45 @@ public class AddBurnActivity extends ToolbarActivity {
         finishBtn.setVisibility(View.GONE);
         pauseBtn.setTag("pause");
         pauseBtn.setVisibility(View.GONE);
+        
+        countDownTimer = new CountDownTimer(4000,1000){
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int s = (int) ((millisUntilFinished-1000)/1000);
+                if(s==0){
+                    countDownTimerTxt.setText("GO!");
+                }else{
+                    countDownTimerTxt.setText(s+"");
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                startLocation();
+                isStarting = true;
+                startTime = new Date();
+                countDownTimerTxt.setVisibility(View.GONE);
+            }
+        };
     }
 
     @Override
     protected void bindListeners() {
         //开始
         startBtn.setOnClickListener(v -> {
-            startLocation();
+            mLocationClient.startLocation();//启动定位
             startBtn.setVisibility(View.GONE);
             pauseBtn.setVisibility(View.VISIBLE);
+
+            countDownTimerTxt.setVisibility(View.VISIBLE);
+            countDownTimer.start();
         });
         //暂停/继续
         pauseBtn.setOnClickListener(v -> {
             switch (pauseBtn.getTag().toString()) {
                 case "pause":
+                    terminalTime = new Date();
+
                     mLocationClient.stopLocation();//停止定位
                     timerHandler.removeMessages(1);
                     //停止定位的时候取消闹钟
@@ -225,11 +262,17 @@ public class AddBurnActivity extends ToolbarActivity {
         });
         //结束
         finishBtn.setOnClickListener(v -> {
+            if(locationList.size() < 2){
+                Utils.toast(this,"客官，您倒是走两步啊！");
+                return;
+            }
             Bundle bundle = new Bundle();
             bundle.putInt("newBurn",newBurn);
             bundle.putFloat("distance",distance);
             bundle.putInt("duration",duration);
             bundle.putFloat("speed",speed);
+            bundle.putSerializable("startTime",startTime);
+            bundle.putSerializable("terminalTime",terminalTime);
             bundle.putParcelableArrayList("locationList", (ArrayList<? extends Parcelable>) locationList);
             Intent completeIntent = new Intent(this,BurnCompleteActivity.class);
             completeIntent.putExtras(bundle);
@@ -240,17 +283,22 @@ public class AddBurnActivity extends ToolbarActivity {
 
     //处理定位坐标点
     private void handleLocation(AMapLocation aMapLocation) {
+        if(!isStarting)
+            return;
         LatLng newLatLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
-        if (locationList.size() != 0) {//非初次
-            distance += AMapUtils.calculateLineDistance(newLatLng, locationList.get(locationList.size() - 1));
-            speed = distance / duration;
-
+        if(locationList.size()==0){//第一次记录坐标
+            locationList.add(newLatLng);
+            return;
+        }
+        float dDistance = AMapUtils.calculateLineDistance(newLatLng, locationList.get(locationList.size() - 1));
+        System.out.println(dDistance+"---------------------ddistance");
+        if(dDistance > 0){
+            distance += dDistance;
             distanceTxt.setText((int) distance + "");
-            speedTxt.setText((int) speed + "");
 
             //计算跑步热量（kcal）＝体重（kg）×距离（公里）×1.036
             //tempBurn cal
-            newBurn = (int)(70 * distance * 1.036);
+            newBurn = (int)(Utils.loginUser.getWeight()/10 * distance * 1.036);
             int tempBurn = currBurn + newBurn;// TODO: 2017/1/29  体重kg
             burnCalorieTxt.setText(tempBurn + "");
             if (!isFinish && tempBurn >= currIntake) {//当锻炼到达目标
@@ -261,10 +309,10 @@ public class AddBurnActivity extends ToolbarActivity {
 
                 // TODO: 2017/1/29
             }
+            locationList.add(newLatLng);
         }
-        locationList.add(newLatLng);
-
-
+        speed = distance / duration;
+        speedTxt.setText((int) speed + "");
     }
     //开始定位
     private void startLocation(){
@@ -295,11 +343,28 @@ public class AddBurnActivity extends ToolbarActivity {
         if(null != alarm){
             alarm.cancel(alarmPendingIntent);
         }
+        timerHandler.removeMessages(1);
+        timerHandler = null;
     }
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (finishRingtone != null && finishRingtone.isPlaying())
             finishRingtone.stop();
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(startTime!=null){
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("返回之后此次的锻炼记录就作废了")
+                    .setNegativeButton("取消",null)
+                    .setPositiveButton("确认",(b,i)->{
+                        super.onBackPressed();
+                    })
+                    .show();
+        }else
+            super.onBackPressed();
     }
 }

@@ -192,4 +192,12 @@
                 />
         </LinearLayout>
     </LinearLayout>
+    <TextView
+        android:id="@+id/countDownTimerTxt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="220sp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:visibility="gone"/>
 </RelativeLayout>

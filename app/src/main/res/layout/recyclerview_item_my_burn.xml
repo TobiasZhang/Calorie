@@ -14,11 +14,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/mapImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/distanceTxt"
             android:text="跑步1.5公里"
+            android:layout_below="@id/mapImage"
             />
         <TextView
             android:layout_width="wrap_content"

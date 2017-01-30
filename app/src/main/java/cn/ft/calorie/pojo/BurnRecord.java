@@ -4,14 +4,19 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import cn.ft.calorie.pojo.sectionrecyclerview.MyLatLng;
+import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by TT on 2017/1/21.
  */
 public class BurnRecord extends RealmObject implements Serializable {
     @SerializedName("_id")
+    @PrimaryKey
     private String id;
     private UserInfo userInfo;
     private Integer calorie;
@@ -22,7 +27,44 @@ public class BurnRecord extends RealmObject implements Serializable {
     private Integer distance;
     private Integer speed;
 
+    private Integer zoom;
+    private MyLatLng center;
+    private RealmList<MyLatLng> pointList;
+    private String mapImage;
+
     private Meta meta;
+
+    public MyLatLng getCenter() {
+        return center;
+    }
+
+    public void setCenter(MyLatLng center) {
+        this.center = center;
+    }
+
+    public String getMapImage() {
+        return mapImage;
+    }
+
+    public void setMapImage(String mapImage) {
+        this.mapImage = mapImage;
+    }
+
+    public List<MyLatLng> getPointList() {
+        return pointList;
+    }
+
+    public void setPointList(RealmList<MyLatLng> pointList) {
+        this.pointList = pointList;
+    }
+
+    public Integer getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(Integer zoom) {
+        this.zoom = zoom;
+    }
 
     public Integer getCalorie() {
         return calorie;
@@ -94,5 +136,24 @@ public class BurnRecord extends RealmObject implements Serializable {
 
     public void setTerminalTime(Date terminalTime) {
         this.terminalTime = terminalTime;
+    }
+
+    @Override
+    public String toString() {
+        return "BurnRecord{" +
+                "calorie=" + calorie +
+                ", id='" + id + '\'' +
+                ", userInfo=" + userInfo +
+                ", startingTime=" + startingTime +
+                ", terminalTime=" + terminalTime +
+                ", duration=" + duration +
+                ", distance=" + distance +
+                ", speed=" + speed +
+                ", zoom=" + zoom +
+                ", center=" + center +
+                ", pointList=" + pointList +
+                ", mapImage='" + mapImage + '\'' +
+                ", meta=" + meta +
+                '}';
     }
 }

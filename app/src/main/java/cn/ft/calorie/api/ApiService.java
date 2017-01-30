@@ -71,6 +71,8 @@ public interface ApiService {
      */
     @GET(API_PATH + "burnRecord")
     Observable<ApiResult<List<BurnRecord>>> getBurnRecords(@QueryMap Map<String,String> options);
+    @POST(API_PATH + "burnRecord")
+    Observable<ApiResult<BurnRecord>> mergeBurnRecord(@Body BurnRecord burnRecord);
     /**
      * 体重记录
      */

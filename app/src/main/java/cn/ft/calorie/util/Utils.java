@@ -11,12 +11,17 @@ import android.util.DisplayMetrics;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.amap.api.maps.model.LatLng;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import cn.ft.calorie.event.UserInfoUpdateEvent;
 import cn.ft.calorie.pojo.UserInfo;
+import cn.ft.calorie.pojo.sectionrecyclerview.MyLatLng;
 import cn.ft.calorie.ui.LoginActivity;
 
 /**
@@ -87,6 +92,29 @@ public class Utils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // MyLatLng -> 高德LatLng
+    public static LatLng myLatLng2LatLng(MyLatLng myLatLng){
+        return new LatLng(myLatLng.getLatitude(),myLatLng.getLongitude());
+    }
+    public static List<LatLng> myLatLng2LatLng(List<MyLatLng> myLatLngList){
+        List<LatLng> list = new ArrayList<>();
+        for(MyLatLng myLatLng:myLatLngList){
+            list.add(myLatLng2LatLng(myLatLng));
+        }
+        return list;
+    }
+    // 高德LatLng -> MyLatLng
+    public static MyLatLng latLng2MyLatLng(LatLng latLng){
+        return new MyLatLng(latLng.latitude,latLng.longitude);
+    }
+    public static List<MyLatLng> LatLng2MyLatLng(List<LatLng> latLngList){
+        List<MyLatLng> list = new ArrayList<>();
+        for(LatLng latLng:latLngList){
+            list.add(latLng2MyLatLng(latLng));
+        }
+        return list;
     }
 
 }
